@@ -5,6 +5,10 @@ import random
 caesar cipher
 completely stolen btw
 maybe we should write our own encryption, let's discuss that later
+
+we still need make a function to decrypt the message
++ 
+we have to store the shift value in a secrets file so we can decrypt the message
 '''
 
 def encrypt(text,s):
