@@ -1,22 +1,26 @@
 import random
-import register_member, database
+import register_member, database, choices, login
 
-'''
-Did not touch this so far :P
-'''
-
-while True:
-    print("Press 1 to enter new member")
-    print("Press 2 to see all members")
-    print("Press 3 to exit")
-    choice = input("Enter your choice: ")
-    if choice == "1":
-        register_member.register_member()
-    elif choice == "2":
-        print("All members:")
-    elif choice == "3":
+if __name__ == "__main__":
+    
+    while True:
+        role = login.login()
+        if role == "advisor":
+            choices.advisor()
+        elif role == "system_administrator":
+            choices.system_administrator()
+        elif role == "super_administrator":
+            choices.super_administrator()
+        else:
+            print("Incorrect username or password")
+            continue
         break
-    else:
-        print("Please enter a valid choice")
-        continue
+    
 
+'''
+advisors can:
+- update their own password
+add new member to the system
+modify or update information of a member in the system
+search and retrieve the information of a member
+'''

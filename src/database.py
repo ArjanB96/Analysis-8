@@ -20,12 +20,12 @@ def create_database():
                 Member_Id INTEGER PRIMARY KEY,
                 First_Name CHAR(25) NOT NULL,
                 Last_Name CHAR(25) NOT NULL,
-                Street VARCHAR(255) NOT NULL,
-                House_Number VARCHAR(255) NOT NULL,
+                Street VARCHAR(40) NOT NULL,
+                House_Number VARCHAR(10) NOT NULL,
                 Zip_Code VARCHAR(6) NOT NULL,
                 City VARCHAR(255) NOT NULL,
                 Email_Address VARCHAR(255) NOT NULL,
-                Phone_Number VARCHAR(255) NOT NULL,
+                Phone_Number VARCHAR(8) NOT NULL,
                 Registration_Date DATE NOT NULL
             ); """
 
