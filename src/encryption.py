@@ -28,12 +28,3 @@ def encrypt(text,s):
  
     return result
  
-#check the above function
-
-#testcase to check encryption
-
-#text = "PYXIS"
-#s = 4
-#print ("Text  : " + text)
-#print ("Shift : " + str(s))
-#print ("Cipher: " + encrypt(text,s))

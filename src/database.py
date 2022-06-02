@@ -1,9 +1,18 @@
+from msilib.schema import AdminExecuteSequence
 import sqlite3
+from datetime import datetime
+import encryption, decryption, secret
 
 '''
-This is a test to create a database and add a table with rows in it
-'''
+This is the code to create a database and add a member table and a employee table
+If the database stops working, you can delete the database and re-create it with the following code
+A super administrator is hardcoded, following the assignment instructions
 
+Authentication_Level: 0 = member
+Authentication_Level: 1 = advisor
+Authentication_Level: 2 = system administrator
+Authentication_Level: 3 = super administrator
+'''
 
 def create_database():
     # Connecting to sqlite
@@ -21,26 +30,43 @@ def create_database():
                 First_Name CHAR(25) NOT NULL,
                 Last_Name CHAR(25) NOT NULL,
                 Street VARCHAR(40) NOT NULL,
-                House_Number VARCHAR(10) NOT NULL,
+                House_Number INTEGER(10) NOT NULL,
                 Zip_Code VARCHAR(6) NOT NULL,
-                City VARCHAR(255) NOT NULL,
-                Email_Address VARCHAR(255) NOT NULL,
-                Phone_Number VARCHAR(8) NOT NULL,
+                City VARCHAR(40) NOT NULL,
+                Email_Address VARCHAR(40) NOT NULL,
+                Phone_Number INTEGER(8) NOT NULL,
                 Registration_Date DATE NOT NULL
             ); """
-
     cursor.execute(table)
     
-    print("Table is Ready")
-    
-    '''
-    NOTE: We can create the User here later on
-    table = """ CREATE TABLE USER (
-                User_Id INTEGER PRIMARY KEY,
-                etc. etc.
-                '''
+    # Drop the Test table if already exists.
+    cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
 
+    # Create table EMPLOYEE
+    table_employee = """ CREATE TABLE EMPLOYEE (
+                Employee_Id INTEGER PRIMARY KEY,
+                Authentication_Level INTEGER(1) NOT NULL,
+                First_Name CHAR(25) NOT NULL,
+                Last_Name CHAR(25) NOT NULL,
+                Username ChAR(25) NOT NULL,
+                Password CHAR(25) NOT NULL,
+                Registration_Date DATE NOT NULL
+            ); """
+    cursor.execute(table_employee)
+
+    first_name_enc = encryption.encrypt("Super", secret.SECRET_KEY)
+    last_name_enc = encryption.encrypt("Administrator", secret.SECRET_KEY)
+    username_enc = encryption.encrypt("superadmin", secret.SECRET_KEY)
+    password_enc = encryption.encrypt("Admin321!", secret.SECRET_KEY)
+
+    date_today = datetime.today()
+    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (1, 3, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
+    
+    # Commit the changes
     connection.commit()
+    
+    # Close the connection
+    connection.close()
 
 
 # create a function to enter input in database

@@ -18,7 +18,7 @@ def super_administrator():
 
 
 def print_advisor_choices():
-    print("Press 1 to update password")
+    print("Press 1 to update your own password")
     print("Press 2 to add new member")
     print("Press 3 to modify or update information of a member")
     print("Press 4 to search and retrieve the information of a member")

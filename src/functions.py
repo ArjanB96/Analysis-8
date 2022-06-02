@@ -32,9 +32,9 @@ def is_valid_phonenumber(mobile_phone):
         print("Invalid phonenumber, try again")
         return False
 
-# https://stackoverflow.com/questions/62086277/regex-for-german-house-number
+
 def is_valid_house_number(house_number):
-    if re.match("^[1-9]\d*(?:[ -]?(?:[a-zA-Z]+|[1-9]\d*))?$", house_number) and len(house_number) <= 10:
+    if len(house_number) < 10 and house_number.isdigit():
         return True
     else:
         print("Invalid housenumber, try again")
@@ -55,7 +55,8 @@ def is_valid_street(street):
         return False
 
 def is_valid_zip_code(zip_code):
-    if len(zip_code) == 6:
+    # if length = 6 and first 4 digits are numbers and last 2 digits are letters
+    if len(zip_code) == 6 and zip_code[0:4].isdigit() and zip_code[4:6].isalpha():
         return True
     else:
         print("Invalid zip code, try again")
