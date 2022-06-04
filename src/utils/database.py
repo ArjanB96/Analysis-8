@@ -1,7 +1,9 @@
 from msilib.schema import AdminExecuteSequence
 import sqlite3
 from datetime import datetime
-import encryption, decryption, secret
+from utils.encryption import encrypt
+from authentication_level_enum import authentication_level
+import secret
 
 '''
 This is the code to create a database and add a member table and a employee table
@@ -54,13 +56,13 @@ def create_database():
             ); """
     cursor.execute(table_employee)
 
-    first_name_enc = encryption.encrypt("Super", secret.SECRET_KEY)
-    last_name_enc = encryption.encrypt("Administrator", secret.SECRET_KEY)
-    username_enc = encryption.encrypt("superadmin", secret.SECRET_KEY)
-    password_enc = encryption.encrypt("Admin321!", secret.SECRET_KEY)
+    first_name_enc = encrypt("Super", secret.SECRET_KEY)
+    last_name_enc = encrypt("Administrator", secret.SECRET_KEY)
+    username_enc = encrypt("superadmin", secret.SECRET_KEY)
+    password_enc = encrypt("Admin321!", secret.SECRET_KEY)
 
     date_today = datetime.today()
-    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (1, 3, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
+    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (1, authentication_level.SUPER_ADMINISTRATOR.value, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
     
     # Commit the changes
     connection.commit()

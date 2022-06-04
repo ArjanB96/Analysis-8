@@ -1,12 +1,14 @@
 import sqlite3
-import encryption, decryption, secret
+from utils.encryption import encrypt
+import secret
 
 def login():
     connection = sqlite3.connect('pythonsqlite.db')
     cursor = connection.cursor()
 
-    username = encryption.encrypt(input("Enter username: "), secret.SECRET_KEY )
-    password = encryption.encrypt(input("Enter password: "), secret.SECRET_KEY )
+    print("Login page")
+    username = encrypt(input("Enter username: "), secret.SECRET_KEY )
+    password = encrypt(input("Enter password: "), secret.SECRET_KEY )
 
     check_username_and_password = cursor.execute(
         'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username, password,))
