@@ -15,10 +15,9 @@ def is_valid_phonenumber(phone_number):
     return False
 
 def is_valid_house_number(house_number):
-    # Has to start with a digit which can't be 0. At most 5 digits and 2 optional letters from a-z (lower or uppercase)
-    regex = r'^[1-9][0-9]{,4}([a-zA-Z]{,2})?$'
-    if re.fullmatch(regex, house_number):
+    if len(house_number) < 10 and house_number.isdigit():
         return True
+
     print("Invalid house number, please try again")
     return False
 
