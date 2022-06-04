@@ -1,6 +1,3 @@
-import string
-import random
-
 '''
 Encryption & Decryption
 '''
