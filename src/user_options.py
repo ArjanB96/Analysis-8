@@ -30,5 +30,3 @@ def show_options(auth_level):
     for key, value in options_dict.items():
         if (auth_level.value >= value):
             print(key)
-
-show_options(authentication_level.SYSTEM_ADMINISTRATOR)
