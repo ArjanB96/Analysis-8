@@ -51,6 +51,7 @@ def register_member():
     #ask for email, it's checking if there's a '@' and a '.' in the email address
     email = input("Enter email: ")
     while not value_checks.is_valid_mail(email):
+        print("Invalid email format, please try again")
         email = input("Enter email: ")
     email_enc = encrypt(email, secret.SECRET_KEY)
 

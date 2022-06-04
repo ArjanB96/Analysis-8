@@ -1,46 +1,42 @@
+import re
+
 def is_valid_mail(email):
-    '''
-    Checks if given email is valid and follows the format
-    '''
-    if email.count("@") == 1 and email.count(".") == 1:
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if re.fullmatch(regex, email):
         return True
-    else:
-        print("Invalid email, try again")
-        return False
+    print("Invalid email, please try again")
+    return False
 
-def is_valid_phonenumber(mobile_phone):
-    if len(mobile_phone) == 8:
+def is_valid_phonenumber(phone_number):
+    regex = r'[0-9]{8}'
+    if re.fullmatch(regex, phone_number):
         return True
-    else:
-        print("Invalid phonenumber, try again")
-        return False
-
+    print("Invalid phone number, please try again")
+    return False
 
 def is_valid_house_number(house_number):
-    if len(house_number) < 10 and house_number.isdigit():
+    # Has to start with a digit which can't be 0. At most 5 digits and 2 optional letters from a-z (lower or uppercase)
+    regex = r'^[1-9][0-9]{,4}([a-zA-Z]{,2})?$'
+    if re.fullmatch(regex, house_number):
         return True
-    else:
-        print("Invalid housenumber, try again")
-        return False
+    print("Invalid house number, please try again")
+    return False
 
 def is_valid_name(name):
     if name != "" and len(name) <= 25:
         return True
-    else:
-        print("Invalid first name, try again")
-        return False
+    print("Invalid first name, try again")
+    return False
 
 def is_valid_street(street):
     if street != "" and len(street) <= 40:
         return True
-    else:
-        print("Invalid street, try again")
-        return False
+    print("Invalid street, try again")
+    return False
 
 def is_valid_zip_code(zip_code):
-    # if length = 6 and first 4 digits are numbers and last 2 digits are letters
-    if len(zip_code) == 6 and zip_code[0:4].isdigit() and zip_code[4:6].isalpha():
+    regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i'
+    if re.fullmatch(regex, zip_code):
         return True
-    else:
-        print("Invalid zip code, try again")
-        return False
+    print("Invalid zip code, try again")
+    return False
