@@ -9,3 +9,6 @@ class LogEvent:
         self.description_of_activity = description_of_activity
         self.additional_information = additional_information
         self.suspicious = suspicious
+
+# def log_login():
+#     log_event = 

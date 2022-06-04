@@ -68,6 +68,6 @@ def register_member():
     checksum_id = generate_checksum_id()
 
     # I'm sending the encrypted email to the database, but we should check what we are going encrypt and what not
-    db.enter_data(checksum_id, first_name_enc, last_name_enc, street_enc, house_number_enc, zip_code_enc, city, email_enc, mobile_phone_enc, registration_date)
+    db.insert_member(checksum_id, first_name_enc, last_name_enc, street_enc, house_number_enc, zip_code_enc, city, email_enc, mobile_phone_enc, registration_date)
     print("Member registered")
 

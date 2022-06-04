@@ -56,13 +56,29 @@ def create_database():
             ); """
     cursor.execute(table_employee)
 
+    # Drop the Test table if already exists.
+    cursor.execute("DROP TABLE IF EXISTS LOGS")
+
+    # Create table LOGS
+    table_logs = """    
+        CREATE TABLE LOGS (
+            Log_Id INTEGER PRIMARY KEY,
+            Username VARCHAR(20),
+            Date DATETIME,
+            Time DATETIME,
+            Description_Of_Activity VARCHAR(200),
+            Additional_Information VARCHAR(200),
+            Suspicious VARCHAR(3)
+        );"""
+    cursor.execute(table_logs)
+
     first_name_enc = encrypt("Super", secret.SECRET_KEY)
     last_name_enc = encrypt("Administrator", secret.SECRET_KEY)
     username_enc = encrypt("superadmin", secret.SECRET_KEY)
     password_enc = encrypt("Admin321!", secret.SECRET_KEY)
 
     date_today = datetime.today()
-    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (1, authentication_level.SUPER_ADMINISTRATOR.value, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (1, authentication_level.SUPER_ADMINISTRATOR.value, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
     
     # Commit the changes
     connection.commit()
@@ -72,7 +88,7 @@ def create_database():
 
 
 # create a function to enter input in database
-def enter_data(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date):
+def insert_member(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date):
     
     # Connecting to sqlite
     connection = sqlite3.connect('pythonsqlite.db')
@@ -80,8 +96,17 @@ def enter_data(member_id, first_name, last_name, street, house_number, zip_code,
     # cursor 
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO MEMBER (Member_Id, First_Name, Last_Name, Street, House_Number, Zip_Code, City, Email_Address, Phone_Number, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date))
+    cursor.execute("INSERT INTO MEMBER VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date))
     
     connection.commit()
 
     connection.close()
+
+def insert_log(log_event):
+    # Connecting to sqlite
+    connection = sqlite3.connect('pythonsqlite.db')
+
+    # Cursor 
+    cursor = connection.cursor()
+
+    
