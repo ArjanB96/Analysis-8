@@ -1,6 +1,17 @@
 import sqlite3
 from utils.encryption import encrypt
 import secret
+import globals
+
+class User():
+    def __init__(self, user_tuple):
+        self.employee_id = user_tuple[0]
+        self.authentication_level = user_tuple[1]
+        self.firstname = user_tuple[2]
+        self.lastname = user_tuple[3]
+        self.username = user_tuple[4]
+        self.password = user_tuple[5]
+        self.registration_date = user_tuple[6]
 
 def login():
     connection = sqlite3.connect('pythonsqlite.db')
@@ -13,14 +24,14 @@ def login():
     check_username_and_password = cursor.execute(
         'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username, password,))
 
-    if check_username_and_password.fetchone() is None:
-        return False
+    user_tuple = check_username_and_password.fetchone()
 
-    else:
-        check_authentication_level = cursor.execute(
-            'SELECT Authentication_Level FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username, password,))
-        authentication_level = check_authentication_level.fetchone()[0]
-
+    if user_tuple is not None:
+        
+        print(type(user_tuple))
+        current_user = User(user_tuple)
+        authentication_level = current_user.authentication_level
+    
         if authentication_level == 1:
             return "advisor"
         elif authentication_level == 2:
@@ -29,3 +40,7 @@ def login():
             return "super_administrator"
         else:
             return False
+    else:
+        return False
+
+

@@ -5,8 +5,7 @@ from authentication_level_enum import authentication_level
 
 while True:
     database.create_database()             #<- creates database if it's your first time running the program
-
-    # register_member.register_member()
+    #register_member.register_member()
     
     role = login()
 
