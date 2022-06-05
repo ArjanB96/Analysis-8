@@ -27,19 +27,7 @@ def login():
     user_tuple = check_username_and_password.fetchone()
 
     if user_tuple is not None:
-        
-        print(type(user_tuple))
-        current_user = User(user_tuple)
-        authentication_level = current_user.authentication_level
-    
-        if authentication_level == 1:
-            return "advisor"
-        elif authentication_level == 2:
-            return "system_administrator"
-        elif authentication_level == 3:
-            return "super_administrator"
-        else:
-            return False
+        globals.current_user = User(user_tuple)
     else:
         return False
 
