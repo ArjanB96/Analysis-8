@@ -34,15 +34,15 @@ def print_incorrect_input():
 
 def show_options(auth_level):
     '''Shows all the options with the given authentication_level'''
+    print("")
     for key, value in options_dict.items():
         if (auth_level.value >= value):
             print(key)
-    
-    read_options(auth_level)
 
 def read_options(auth_level):
     while True:
-        user_input = input("Enter your option: ")
+        show_options(auth_level)
+        user_input = input("\nEnter your option: ")
 
         ### All of the options 
 
