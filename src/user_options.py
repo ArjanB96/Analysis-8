@@ -1,5 +1,6 @@
 from authentication_level_enum import authentication_level
 from advisor_functions.register_member import *
+from advisor_functions import update_password
 
 '''
 Authentication_Level: 0 = member
@@ -52,6 +53,7 @@ def read_options(auth_level):
 
         # Update password
         elif user_input == "1":
+            update_password.update_password()
             continue
 
         # Add new member    
