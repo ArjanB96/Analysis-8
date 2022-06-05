@@ -6,7 +6,6 @@ import globals
 
 while True:
     database.create_database()             #<- creates database if it's your first time running the program
-    #create_database()             #<- creates database if it's your first time running the program
 
     #register_member.register_member()
 
