@@ -1,3 +1,4 @@
-# current_user object
+from models.user import User
 
-current_user = None
+# current_user object
+current_user : User = None

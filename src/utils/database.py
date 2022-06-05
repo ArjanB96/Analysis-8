@@ -2,7 +2,8 @@ from msilib.schema import AdminExecuteSequence
 import sqlite3
 from datetime import datetime
 from utils.encryption import encrypt
-from authentication_level_enum import authentication_level
+from models.authentication_level_enum import authentication_level
+from models.log_event import LogEvent
 import secret
 
 '''
@@ -47,7 +48,7 @@ def create_database():
     # Create table EMPLOYEE
     table_employee = """ CREATE TABLE EMPLOYEE (
                 Employee_Id INTEGER PRIMARY KEY,
-                Authentication_Level INTEGER(1) NOT NULL,
+                Authentication_Level TINYINT NOT NULL,
                 First_Name CHAR(25) NOT NULL,
                 Last_Name CHAR(25) NOT NULL,
                 Username ChAR(25) NOT NULL,
@@ -64,11 +65,11 @@ def create_database():
         CREATE TABLE LOGS (
             Log_Id INTEGER PRIMARY KEY,
             Username VARCHAR(20),
-            Date DATETIME,
-            Time DATETIME,
-            Description_Of_Activity VARCHAR(200),
+            Date DATETIME NOT NULL,
+            Time DATETIME NOT NULL,
+            Description_Of_Activity VARCHAR(200) NOT NULL,
             Additional_Information VARCHAR(200),
-            Suspicious VARCHAR(3)
+            Suspicious VARCHAR(3) NOT NULL
         );"""
     cursor.execute(table_logs)
 
@@ -76,6 +77,7 @@ def create_database():
     last_name_enc = encrypt("Administrator", secret.SECRET_KEY)
     username_enc = encrypt("superadmin", secret.SECRET_KEY)
     password_enc = encrypt("Admin321!", secret.SECRET_KEY)
+    auth_lvl_enc = encrypt(str(authentication_level.SUPER_ADMINISTRATOR.value), secret.SECRET_KEY)
 
     first_name_enc2 = encrypt("Arjan", secret.SECRET_KEY)
     last_name_enc2 = encrypt("B", secret.SECRET_KEY)
@@ -83,7 +85,7 @@ def create_database():
     password_enc2 = encrypt("Wachtwoord123", secret.SECRET_KEY)
 
     date_today = datetime.today()
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (1, authentication_level.SUPER_ADMINISTRATOR.value, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (1, auth_lvl_enc, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
     
     cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (2, authentication_level.ADVISOR.value, first_name_enc2, last_name_enc2, username_enc2, password_enc2, date_today))
     # Commit the changes
@@ -108,7 +110,7 @@ def insert_member(member_id, first_name, last_name, street, house_number, zip_co
 
     connection.close()
 
-def insert_log(log_event):
+def insert_log(log_event: LogEvent):
     # Connecting to sqlite
     connection = sqlite3.connect('pythonsqlite.db')
 
