@@ -1,3 +1,3 @@
 # current_user object
 
-current_user = ""
+current_user = None

@@ -25,8 +25,8 @@ def login():
         'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username, password,))
 
     user_tuple = check_username_and_password.fetchone()
-    
-    if check_username_and_password.fetchone() is not None:
+
+    if user_tuple is not None:
         
         print(type(user_tuple))
         current_user = User(user_tuple)
