@@ -24,6 +24,5 @@ def login():
     if user_tuple is not None:
         globals.current_user = User(decrypt_employee(user_tuple))
         return True
-
     else:
         return False

@@ -20,7 +20,7 @@ while True:
             read_options(authentication_level.SYSTEM_ADMINISTRATOR)
         elif authentication_lvl == 3:
             read_options(authentication_level.SUPER_ADMINISTRATOR)
+        else:
+            print("Incorrect username or password")
+            continue
         break
-    else: 
-        print("Incorrect username or password")
-        continue

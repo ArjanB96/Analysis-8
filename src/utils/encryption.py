@@ -12,8 +12,12 @@ def encrypt(text,s):
     for i in range(len(text)):
         char = text[i]
 
+        # encrypt special 
+        if ord(char) in range(33,48): 
+            result += chr((ord(char) + s-33) % 15 + 33)
+
         # Encrypt digits
-        if (char.isdigit()):
+        elif (char.isdigit()):
             result += chr((ord(char) + s-48) % 10 + 48)
 
         # Encrypt uppercase
@@ -31,9 +35,14 @@ def decrypt(text,s):
  
     for i in range(len(text)):
         char = text[i]
- 
+
+        # Decrypt special 
+        if ord(char) in range(33,48): 
+            result += chr((ord(char) - s-33) % 15 + 33)
+
+
         # Decrypt digits
-        if (char.isdigit()):
+        elif (char.isdigit()):
             result += chr((ord(char) - s-48) % 10 + 48)
 
         # Decrypt uppercase 
