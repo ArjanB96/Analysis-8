@@ -61,9 +61,15 @@ def create_database():
     username_enc = encrypt("superadmin", secret.SECRET_KEY)
     password_enc = encrypt("Admin321!", secret.SECRET_KEY)
 
+    first_name_enc2 = encrypt("Arjan", secret.SECRET_KEY)
+    last_name_enc2 = encrypt("B", secret.SECRET_KEY)
+    username_enc2 = encrypt("Advisor_Arjan", secret.SECRET_KEY)
+    password_enc2 = encrypt("Wachtwoord123", secret.SECRET_KEY)
+
     date_today = datetime.today()
     cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (1, authentication_level.SUPER_ADMINISTRATOR.value, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
     
+    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (2, authentication_level.ADVISOR.value, first_name_enc2, last_name_enc2, username_enc2, password_enc2, date_today))
     # Commit the changes
     connection.commit()
     
