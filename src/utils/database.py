@@ -2,7 +2,7 @@ from msilib.schema import AdminExecuteSequence
 import sqlite3
 from datetime import datetime
 from utils.encryption import encrypt, encrypt_employee
-from models.authentication_level_enum import authentication_level
+from models.enums import authentication_level
 from models.log_event import LogEvent
 import secret
 

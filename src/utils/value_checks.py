@@ -34,7 +34,7 @@ def is_valid_street(street):
     return False
 
 def is_valid_zip_code(zip_code):
-    regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i'
+    regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$i'
     if re.fullmatch(regex, zip_code):
         return True
     print("Invalid zip code, try again")

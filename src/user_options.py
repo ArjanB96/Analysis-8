@@ -1,4 +1,4 @@
-from models.authentication_level_enum import authentication_level
+from models.enums import authentication_level
 from advisor_functions.register_member import *
 from advisor_functions import update_password
 
