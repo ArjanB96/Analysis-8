@@ -1,7 +1,7 @@
 from msilib.schema import AdminExecuteSequence
 import sqlite3
 from datetime import datetime
-from utils.encryption import encrypt
+from utils.encryption import encrypt, encrypt_employee
 from models.authentication_level_enum import authentication_level
 from models.log_event import LogEvent
 import secret
@@ -73,21 +73,16 @@ def create_database():
         );"""
     cursor.execute(table_logs)
 
-    first_name_enc = encrypt("Super", secret.SECRET_KEY)
-    last_name_enc = encrypt("Administrator", secret.SECRET_KEY)
-    username_enc = encrypt("superadmin", secret.SECRET_KEY)
-    password_enc = encrypt("Admin321!", secret.SECRET_KEY)
-    auth_lvl_enc = encrypt(str(authentication_level.SUPER_ADMINISTRATOR.value), secret.SECRET_KEY)
+    super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today()))
 
     first_name_enc2 = encrypt("Arjan", secret.SECRET_KEY)
     last_name_enc2 = encrypt("B", secret.SECRET_KEY)
     username_enc2 = encrypt("Advisor_Arjan", secret.SECRET_KEY)
     password_enc2 = encrypt("Wachtwoord123", secret.SECRET_KEY)
 
-    date_today = datetime.today()
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (1, auth_lvl_enc, first_name_enc, last_name_enc, username_enc, password_enc, date_today))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6]))
     
-    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (2, authentication_level.ADVISOR.value, first_name_enc2, last_name_enc2, username_enc2, password_enc2, date_today))
+    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (2, authentication_level.ADVISOR.value, first_name_enc2, last_name_enc2, username_enc2, password_enc2, datetime.today()))
     # Commit the changes
     connection.commit()
     
