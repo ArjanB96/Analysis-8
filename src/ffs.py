@@ -1,7 +1,7 @@
 import advisor_functions.register_member as register_member, utils.database as database, utils.login as login
 from utils.login import login
 from user_options import read_options
-from authentication_level_enum import authentication_level
+from models.authentication_level_enum import authentication_level
 import globals
 
 while True:

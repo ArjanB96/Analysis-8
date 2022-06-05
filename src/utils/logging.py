@@ -1,14 +1,25 @@
-import datetime
+from distutils.log import Log
+from pydoc import describe
+from models.log_event import LogEvent
+import globals
 
-class LogEvent:
-    def __init__(self, username, description_of_activity, additional_information, suspicious):
-        self.number = 1
-        self.username = username
-        self.date = datetime.date.today().strftime("%d-%m-%Y")
-        self.time = datetime.datetime.now().strftime("%H:%H:%S")
-        self.description_of_activity = description_of_activity
-        self.additional_information = additional_information
-        self.suspicious = suspicious
+def log_successful_login():
+    if globals.current_user is None: 
+        return
+    username = globals.current_user.username
+    description = "Logged in"
+    suspicious = "No"
 
-# def log_login():
-#     log_event = 
+def log_unsuccessful_login(username):
+    description = ""
+    additional_info = ""
+    suspicious = "Yes"
+
+def log_login(successful = True, username=""):
+    if successful:
+        username = globals.current_user.username
+        description = "Logged in"
+        additional_info = ""
+        suspicious = "No"
+    else:
+        description
