@@ -40,6 +40,8 @@ def is_valid_zip_code(zip_code):
     print("Invalid zip code, try again")
     return False
 
+
+def is_valid_password(password):
     '''
     This function checks if the password is valid.
     The password: 
@@ -49,8 +51,6 @@ def is_valid_zip_code(zip_code):
     ○ must have a combination of at least one lowercase letter, one uppercase letter, one digit, and one special character
     ○ can not contain spaces
     '''
-
-def is_valid_password(password):
     regex = r'^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8,30})'
     
     if re.fullmatch(regex, password):
