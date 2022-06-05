@@ -7,7 +7,7 @@ from models.user import User
 
 def login():
     '''
-    Handles the login\n
+    Handles the login
     Returns whether the login was successful or not
     '''
     connection = sqlite3.connect('pythonsqlite.db')

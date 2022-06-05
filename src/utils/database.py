@@ -102,6 +102,18 @@ def insert_member(member_id, first_name, last_name, street, house_number, zip_co
 
     connection.close()
 
+def update_password(username, password):
+    # Connecting to sqlite
+    connection = sqlite3.connect('pythonsqlite.db')
+
+    # Cursor 
+    cursor = connection.cursor()
+
+    cursor.execute("""UPDATE EMPLOYEE SET Password = ? WHERE Username = ?""", (password, username))
+    
+    connection.commit()
+    connection.close()
+
 def insert_log(log_event: LogEvent):
     # Connecting to sqlite
     connection = sqlite3.connect('pythonsqlite.db')

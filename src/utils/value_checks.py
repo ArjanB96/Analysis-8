@@ -40,9 +40,18 @@ def is_valid_zip_code(zip_code):
     print("Invalid zip code, try again")
     return False
 
+
 def is_valid_password(password):
-    #regex atleast 8 characters, atleast 1 number, atleast 1 lowercase letter, atleast 1 special character and atleast 1 uppercase letter at most 30 characters
-    regex = r'^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{8,30})'
+    '''
+    This function checks if the password is valid.
+    The password: 
+    ○ must have a length of at least 8 characters
+    ○ must be no longer than 30 characters
+    ○ can contain letters (a-z), (A-Z), numbers (0-9), Special characters such as ~!@#$%&_-+=`|\(){}[]:;'<>,.?/
+    ○ must have a combination of at least one lowercase letter, one uppercase letter, one digit, and one special character
+    ○ can not contain spaces
+    '''
+    regex = r'^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_])\S{8,30})'
     
     if re.fullmatch(regex, password):
         return True
