@@ -28,4 +28,5 @@ def login():
         log_login()
         return True
     else:
+        print("Invalid username or password")
         return False
