@@ -15,11 +15,15 @@ def log_unsuccessful_login(username):
     additional_info = ""
     suspicious = "Yes"
 
-def log_login(successful = True, username=""):
+def log_login(successful = True, unsuccessful_username=""):
     if successful:
         username = globals.current_user.username
         description = "Logged in"
         additional_info = ""
-        suspicious = "No"
     else:
-        description
+        username = "..."
+        description = "Unsuccessful login"
+        additional_info = f"username: \"{unsuccessful_username}\" is used for a login attempt with wrong password"
+    suspicious = "No"
+    
+    

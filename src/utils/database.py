@@ -75,14 +75,11 @@ def create_database():
 
     super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today()))
 
-    first_name_enc2 = encrypt("Arjan", secret.SECRET_KEY)
-    last_name_enc2 = encrypt("B", secret.SECRET_KEY)
-    username_enc2 = encrypt("Advisor_Arjan", secret.SECRET_KEY)
-    password_enc2 = encrypt("Wachtwoord123", secret.SECRET_KEY)
+    advisor_tuple_enc = encrypt_employee((2, authentication_level.ADVISOR.value, "Arjan", "B", "Advisor_Arjan", "Wachtwoord123", datetime.today()))
 
     cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6]))
     
-    cursor.execute("INSERT INTO EMPLOYEE (Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date) VALUES (?, ?, ?, ?, ?, ?, ?)", (2, authentication_level.ADVISOR.value, first_name_enc2, last_name_enc2, username_enc2, password_enc2, datetime.today()))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (advisor_tuple_enc[0], advisor_tuple_enc[1], advisor_tuple_enc[2], advisor_tuple_enc[3], advisor_tuple_enc[4], advisor_tuple_enc[5], advisor_tuple_enc[6]))
     # Commit the changes
     connection.commit()
     
@@ -112,4 +109,8 @@ def insert_log(log_event: LogEvent):
     # Cursor 
     cursor = connection.cursor()
 
+    cursor.execute("""INSERT INTO LOGS (Username, Date, Time, Description_Of_Activity, Additional_Information, Suspicious) 
+    VALUES (?, ?, ?, ?, ?, ?)""", (log_event.username, log_event.date, log_event.time, log_event.description_of_activity, log_event.additional_information, log_event.suspicious))
     
+    connection.commit()
+    connection.close()

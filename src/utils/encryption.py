@@ -1,6 +1,8 @@
+from cmath import log
 import datetime
 import re
 from unittest import result
+from models.log_event import LogEvent
 import secret
 
 '''
@@ -57,20 +59,35 @@ def decrypt(text,s):
  
     return result
 
+def de_or_encrypt_employee(employee: tuple, function: object):
+    result = (
+        employee[0],                                         # employee_id
+        int(function(str(employee[1]), secret.SECRET_KEY)),  # authentication_level
+        function(employee[2], secret.SECRET_KEY),            # first_name
+        function(employee[3], secret.SECRET_KEY),            # last_name
+        function(employee[4], secret.SECRET_KEY),            # username
+        function(employee[5], secret.SECRET_KEY),            # password
+        employee[6]                                          # registration_date
+    )
+    return result
+
 def decrypt_employee(employee: tuple):
     return de_or_encrypt_employee(employee, decrypt)
 
 def encrypt_employee(employee: tuple):
     return de_or_encrypt_employee(employee, encrypt)
 
-def de_or_encrypt_employee(employee: tuple, function: object):
-    result = (
-        employee[0],                                        # employee_id
-        int(function(str(employee[1]), secret.SECRET_KEY)),  # authentication_level
-        function(employee[2], secret.SECRET_KEY),            # first_name
-        function(employee[3], secret.SECRET_KEY),            # last_name
-        function(employee[4], secret.SECRET_KEY),            # username
-        function(employee[5], secret.SECRET_KEY),            # password
-        employee[6]                                         # registration_date
+def de_or_encrypt_log(log_event: LogEvent, function: object):
+    result = LogEvent(
+        function(log_event.username, secret.SECRET_KEY),                
+        function(log_event.description_of_activity, secret.SECRET_KEY), 
+        function(log_event.additional_information, secret.SECRET_KEY),
+        function(log_event.suspicious, secret.SECRET_KEY)
     )
     return result
+
+def decrypt_log(log_event: LogEvent):
+    return de_or_encrypt_employee(log_event, decrypt)
+
+def encrypt_log(log_event: LogEvent):
+    return de_or_encrypt_log(log_event, encrypt)
