@@ -9,18 +9,18 @@ while True:
 
     #register_member.register_member()
 
-    login()
+    if (login()):
 
-    #check authentication_level in global current_user
-    authentication_lvl = globals.current_user.authentication_level
+        #check authentication_level in global current_user
+        authentication_lvl = globals.current_user.authentication_level
 
-    if authentication_lvl == 1:
-        read_options(authentication_level.ADVISOR)
-    elif authentication_lvl == 2:
-        read_options(authentication_level.SYSTEM_ADMINISTRATOR)
-    elif authentication_lvl == 3:
-        read_options(authentication_level.SUPER_ADMINISTRATOR)
-    else:
-        print("Incorrect username or password")
-        continue
-    break
+        if authentication_lvl == 1:
+            read_options(authentication_level.ADVISOR)
+        elif authentication_lvl == 2:
+            read_options(authentication_level.SYSTEM_ADMINISTRATOR)
+        elif authentication_lvl == 3:
+            read_options(authentication_level.SUPER_ADMINISTRATOR)
+        else:
+            print("Incorrect username or password")
+            continue
+        break
