@@ -14,19 +14,27 @@ def login():
     cursor = connection.cursor()
 
     print("Login page")
-    username = encrypt(input("Enter username: "), secret.SECRET_KEY )
+    # If login was unsuccessful, the unencrypted username will be added to a log
+    username = input("Enter username: ")
+
+    username_enc = encrypt(username, secret.SECRET_KEY )
     password = encrypt(input("Enter password: "), secret.SECRET_KEY )
 
     check_username_and_password = cursor.execute(
-        'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username, password,))
+        'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username_enc, password,))
 
     user_tuple = check_username_and_password.fetchone()
 
     if user_tuple is not None:
         globals.current_user = User(decrypt_employee(user_tuple))
+
         # Logs the successful login
         log_login()
+
         return True
     else:
+        # Logs the unsuccuessful login with the username that was used to login
+        log_login(False, username)
         print("Invalid username or password")
+        
         return False

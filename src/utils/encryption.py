@@ -106,3 +106,16 @@ def decrypt_log(log_event: LogEvent):
 
 def encrypt_log(log_event: LogEvent):
     return de_or_encrypt_log(log_event, encrypt)
+
+def decrypt_log_from_tuple(log_event: tuple):
+    result = (
+        log_event[0],
+        decrypt(log_event[1], secret.SECRET_KEY),
+        log_event[2],
+        log_event[3],
+        decrypt(log_event[4], secret.SECRET_KEY),
+        decrypt(log_event[5], secret.SECRET_KEY),
+        decrypt(log_event[6], secret.SECRET_KEY),
+        log_event[7]
+    )
+    return result
