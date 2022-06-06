@@ -8,7 +8,7 @@ def search_member_information():
     members_decrypted = db.show_all_members()
 
     if len(members_decrypted) == 0:
-        print("No members in the database")
+        print("\nNo members found\n")
         return
 
     else:

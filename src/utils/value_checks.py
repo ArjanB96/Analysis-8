@@ -1,4 +1,5 @@
 import re
+import utils.database as db
 
 def is_valid_mail(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -73,7 +74,7 @@ def is_valid_password(password):
         print("Password not following the requirements, try again")
         return False
 
-def valid_member_id(member_id):
+def is_valid_member_id(member_id):
     '''
     This function checks if the member_id is valid.
     The member_id: 
@@ -81,7 +82,10 @@ def valid_member_id(member_id):
     ○ can't start with 0
     ○ must be exactly 10 random digits
     ○ last digit on the right is a checksum which must be equal to the remainder of the sum of the first 9 digits by 10
+    ○ can not be a duplicate
     '''
+    all_member_ids = db.check_all_member_ids()
+
     # count first 9 digits
     sum = 0
     for i in range(len(member_id)):
@@ -92,5 +96,24 @@ def valid_member_id(member_id):
 
     regex = r'^[1-9][0-9]{9}$'
     if re.fullmatch(regex, member_id) and sum % 10 == int(member_id[9]):
+        if int(member_id) not in all_member_ids:
+            return True
+        elif int(member_id) in all_member_ids:
+            print("Member id already exists, try again")
+            return False
+        else:
+            print("Invalid member id, try again")
+            return False
+
+def is_valid_registration_date(registration_date):
+    '''
+    This function checks if the registration_date is valid.
+    The registration_date: 
+    ○ must be a string of the format YYYY-MM-DD
+    ○ must be a valid date
+    ○ example: 2022-06-06 13:40:36.916598
+    '''
+    regex = r'^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{6}$'
+    if re.fullmatch(regex, registration_date):
         return True
-    print("Invalid member_id, try again")
+    print("Invalid registration_date, try again")

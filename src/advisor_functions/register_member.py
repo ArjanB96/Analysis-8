@@ -39,18 +39,10 @@ def register_member():
     zip_code_enc = encrypt(zip_code, secret.SECRET_KEY)
 
     #we should write a validation if we make sure that we know what the assignment wants
-    # print all cities
-    print("\nChoose your city:\n")
-    list_of_cities = ["Rotterdam", "Dordrecht", "Zwijndrecht", "Papendrecht", "Ridderkerk", "Barendrecht", "Amsterdam", "Den Haag", "Leiden", "Utrecht"]
-    i = 0
-    while i < len(list_of_cities):
-        print(i + 1, ":", list_of_cities[i])
-        i += 1
-    city = input("\nEnter the number of your city: ")
-    while not value_checks.is_valid_city(city):
-        city = input("Enter the number of your city: ")
-    print(city)
-    city = encrypt(list_of_cities[int(city)-1], secret.SECRET_KEY)
+    # made a function to choose city
+    # to re-use it in changing information
+    city = choose_city()
+    
     
     #ask for email, it's checking if there's a '@' and a '.' in the email address
     email = input("Enter email: ")
@@ -74,3 +66,16 @@ def register_member():
     db.insert_member(checksum_id, first_name_enc, last_name_enc, street_enc, house_number_enc, zip_code_enc, city, email_enc, mobile_phone_enc, registration_date)
     print("Member registered")
 
+def choose_city():
+        print("\nChoose your city:\n")
+        list_of_cities = ["Rotterdam", "Dordrecht", "Zwijndrecht", "Papendrecht", "Ridderkerk", "Barendrecht", "Amsterdam", "Den Haag", "Leiden", "Utrecht"]
+        i = 0
+        while i < len(list_of_cities):
+            print(i + 1, ":", list_of_cities[i])
+            i += 1
+        city = input("\nEnter the number of your city: ")
+        while not value_checks.is_valid_city(city):
+            city = input("Enter the number of your city: ")
+        print(city)
+        city = encrypt(list_of_cities[int(city)-1], secret.SECRET_KEY)
+        return city
