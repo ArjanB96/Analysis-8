@@ -1,4 +1,3 @@
-from asyncio.tasks import _T2
 from models.enums import log_user_options
 from models.log_event import LogEvent
 from models.user import User
