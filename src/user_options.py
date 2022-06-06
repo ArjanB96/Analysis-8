@@ -3,7 +3,9 @@ from advisor_functions.register_member import *
 from advisor_functions.update_password import *
 from system_administrator_functions import * 
 from advisor_functions import update_member_info, search_member_information
-from system_administrator_functions import backup
+from system_administrator_functions import view_users_and_roles, create_advisor, update_advisor_info, delete_advisor, reset_advisor_password, backup
+
+
 
 '''
 Authentication_Level: 0 = member
@@ -82,22 +84,27 @@ def read_options(auth_level):
 
         # View list of users and their roles
         elif user_input == "5":
+            view_users_and_roles.view_users_and_roles()
             continue
         
         # Define and add new advisor
         elif user_input == "6":
+            create_advisor.create_advisor()
             continue
         
         # Modify / update advisor's account and profile
         elif user_input == "7":
+            update_advisor_info.update_advisor_info()
             continue
         
         # Delete an advisor's account
         elif user_input == "8":
+            delete_advisor.delete_advisor()
             continue
 
         # Reset advisor's password (a temporary password)
         elif user_input == "9":
+            reset_advisor_password.reset_advisor_password()
             continue
         
         # Make backup of the system and restore
