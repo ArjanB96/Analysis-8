@@ -1,6 +1,9 @@
 from models.enums import authentication_level
 from advisor_functions.register_member import *
-from advisor_functions import update_password
+from advisor_functions.update_password import *
+from advisor_functions import update_member_info, search_member_information
+
+
 
 '''
 Authentication_Level: 0 = member
@@ -53,7 +56,7 @@ def read_options(auth_level):
 
         # Update password
         elif user_input == "1":
-            update_password.update_password()
+            update_password()
             continue
 
         # Add new member    
@@ -63,10 +66,12 @@ def read_options(auth_level):
 
         # Modify / update information of member
         elif user_input == "3":
+            update_member_info.update_member_info()
             continue
         
         # Search / retrieve information of member
         elif user_input == "4":
+            search_member_information.search_member_information()
             continue
         
         ### System administrator options

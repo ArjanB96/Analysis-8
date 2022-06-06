@@ -17,7 +17,6 @@ def is_valid_phonenumber(phone_number):
 def is_valid_house_number(house_number):
     if len(house_number) < 10 and house_number.isdigit():
         return True
-
     print("Invalid house number, please try again")
     return False
 
@@ -34,12 +33,27 @@ def is_valid_street(street):
     return False
 
 def is_valid_zip_code(zip_code):
-    regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$i'
+    '''
+    ○ First digit can not be a 0
+    ○ Second 3 digits can be 0-9
+    ○ Last 2 letters can't be 'sa', 'sd' or 'ss' (due to the world war 2)
+    ○ zip_code must be length 6 (or 7 if there's a space between the first 4 digits and the last 2 letters)
+
+    '''
+    regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss|SA|SD|SS|sA|sD|sS|Sa|Sd|Ss)[a-zA-Z]{2}$'
     if re.fullmatch(regex, zip_code):
         return True
     print("Invalid zip code, try again")
     return False
 
+def is_valid_city(city):
+    # if city is an integer >=1 and <=10 return True
+    
+    if city.isdigit() and int(city) in range(1, 11):
+        return True
+    print("Invalid city, try again")
+    return False
+ 
 
 def is_valid_password(password):
     '''
@@ -59,3 +73,24 @@ def is_valid_password(password):
         print("Password not following the requirements, try again")
         return False
 
+def valid_member_id(member_id):
+    '''
+    This function checks if the member_id is valid.
+    The member_id: 
+    ○ must be an integer
+    ○ can't start with 0
+    ○ must be exactly 10 random digits
+    ○ last digit on the right is a checksum which must be equal to the remainder of the sum of the first 9 digits by 10
+    '''
+    # count first 9 digits
+    sum = 0
+    for i in range(len(member_id)):
+        if i < 9:
+            sum += int(member_id[i])
+        else:
+            break
+
+    regex = r'^[1-9][0-9]{9}$'
+    if re.fullmatch(regex, member_id) and sum % 10 == int(member_id[9]):
+        return True
+    print("Invalid member_id, try again")

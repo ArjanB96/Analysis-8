@@ -1,5 +1,4 @@
 import secret
-from matplotlib.pyplot import connect
 from models.enums import log_user_options, log_backup_options, log_lookup_options
 from models.log_event import LogEvent
 from models.user import User

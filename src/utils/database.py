@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
-from utils.encryption import encrypt_employee
-from models.enums import authentication_level
+from utils.encryption import encrypt, encrypt_employee, decrypt, de_or_encrypt_member
+from models.authentication_level_enum import authentication_level
 from models.log_event import LogEvent
 
 '''
@@ -101,6 +101,36 @@ def update_password(username, password):
     
     connection.commit()
     connection.close()
+
+def update_member(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old):
+    # Connecting to sqlite
+    connection = sqlite3.connect('pythonsqlite.db')
+
+    # Cursor 
+    cursor = connection.cursor()
+    
+    cursor.execute("""UPDATE MEMBER SET Member_Id = ?, First_Name = ?, Last_Name = ?, Street = ?, House_Number = ?, Zip_Code = ?, City = ?, Email_Address = ?, Phone_Number = ?, Registration_Date = ? WHERE Member_Id = ?""", (member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old))
+    
+    connection.commit()
+    connection.close()
+
+def show_all_members():
+    # Connecting to sqlite
+    connection = sqlite3.connect('pythonsqlite.db')
+
+    # Cursor 
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM MEMBER")
+    members = cursor.fetchall()
+
+    connection.close()
+
+    members_decrypted = []
+    for member in members:
+        member_decrypted = de_or_encrypt_member(member, decrypt)
+        members_decrypted.append(member_decrypted)
+    return members_decrypted
 
 def insert_log(log_event: LogEvent):
     # Connecting to sqlite
