@@ -1,9 +1,9 @@
 from models.enums import authentication_level
 from advisor_functions.register_member import *
 from advisor_functions.update_password import *
+from system_administrator_functions import * 
 from advisor_functions import update_member_info, search_member_information
-
-
+from system_administrator_functions import backup
 
 '''
 Authentication_Level: 0 = member
@@ -102,6 +102,7 @@ def read_options(auth_level):
         
         # Make backup of the system and restore
         elif user_input == "10":
+            backup.show_options()
             continue
         
         # View the log file(s) 
