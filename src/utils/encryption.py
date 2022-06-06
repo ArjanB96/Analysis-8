@@ -71,6 +71,21 @@ def de_or_encrypt_employee(employee: tuple, function: object):
     )
     return result
 
+def de_or_encrypt_member(member: tuple, function: object):
+    result = (
+        member[0],                                         # member_id
+        function(member[1], secret.SECRET_KEY),            # first_name
+        function(member[2], secret.SECRET_KEY),            # last_name
+        function(member[3], secret.SECRET_KEY),            # street
+        int(function(str(member[4]), secret.SECRET_KEY)),  # house_number
+        function(member[5], secret.SECRET_KEY),            # zip_code
+        function(member[6], secret.SECRET_KEY),            # city
+        function(member[7], secret.SECRET_KEY),            # email_address
+        int(function(str(member[8]), secret.SECRET_KEY)),  # phone_number
+        member[9],                                         # registration_date
+        )
+    return result
+
 def decrypt_employee(employee: tuple):
     return de_or_encrypt_employee(employee, decrypt)
 

@@ -4,10 +4,6 @@ from utils.encryption import encrypt
 import utils.database as db
 from utils.checksum import generate_checksum_id
 
-'''
-This is to register members. NOTE: members don't need a username/password as far as I know
-'''
-
 def register_member():
     #ask for first name, can not be empty
     #we have to think about how many characters we can have (to store in DB aswell) 25 for now
@@ -31,7 +27,6 @@ def register_member():
     street_enc = encrypt(street, secret.SECRET_KEY)
 
     #ask for house number
-    #we have to think about how many characters we can have (to store in DB aswell) 10 for now
     house_number = input("Enter house number: ")
     while not value_checks.is_valid_house_number(house_number):
         house_number = input("Enter house number: ")
@@ -43,15 +38,23 @@ def register_member():
         zip_code = input("Enter zip code: ")
     zip_code_enc = encrypt(zip_code, secret.SECRET_KEY)
 
-    #ask for city (i'm not sure what the assignment means with 10 generated city names?)
     #we should write a validation if we make sure that we know what the assignment wants
-    city = input("Enter city: ")
-    city_enc = encrypt(city, secret.SECRET_KEY)
-
+    # print all cities
+    print("\nChoose your city:\n")
+    list_of_cities = ["Rotterdam", "Dordrecht", "Zwijndrecht", "Papendrecht", "Ridderkerk", "Barendrecht", "Amsterdam", "Den Haag", "Leiden", "Utrecht"]
+    i = 0
+    while i < len(list_of_cities):
+        print(i + 1, ":", list_of_cities[i])
+        i += 1
+    city = input("\nEnter the number of your city: ")
+    while not value_checks.is_valid_city(city):
+        city = input("Enter the number of your city: ")
+    print(city)
+    city = encrypt(list_of_cities[int(city)-1], secret.SECRET_KEY)
+    
     #ask for email, it's checking if there's a '@' and a '.' in the email address
     email = input("Enter email: ")
     while not value_checks.is_valid_mail(email):
-        print("Invalid email format, please try again")
         email = input("Enter email: ")
     email_enc = encrypt(email, secret.SECRET_KEY)
 
@@ -67,7 +70,7 @@ def register_member():
     # generate a checksum id, including the checksum etc.
     checksum_id = generate_checksum_id()
 
-    # I'm sending the encrypted email to the database, but we should check what we are going encrypt and what not
+    # Encrypting first name, last name, street, house number, zip code, city, email, mobile phone
     db.insert_member(checksum_id, first_name_enc, last_name_enc, street_enc, house_number_enc, zip_code_enc, city, email_enc, mobile_phone_enc, registration_date)
     print("Member registered")
 
