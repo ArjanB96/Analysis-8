@@ -1,10 +1,8 @@
-from msilib.schema import AdminExecuteSequence
 import sqlite3
 from datetime import datetime
-from utils.encryption import encrypt, encrypt_employee
+from utils.encryption import encrypt_employee
 from models.enums import authentication_level
 from models.log_event import LogEvent
-import secret
 
 '''
 This is the code to create a database and add a member table and a employee table
@@ -24,11 +22,8 @@ def create_database():
     # cursor 
     cursor = connection.cursor()
     
-    # Drop the Test table if already exists.
-    cursor.execute("DROP TABLE IF EXISTS MEMBER")
-    
     # Create table MEMBER
-    table = """ CREATE TABLE MEMBER (
+    table = """ CREATE TABLE IF NOT EXISTS MEMBER (
                 Member_Id INTEGER PRIMARY KEY,
                 First_Name CHAR(25) NOT NULL,
                 Last_Name CHAR(25) NOT NULL,
@@ -42,11 +37,8 @@ def create_database():
             ); """
     cursor.execute(table)
     
-    # Drop the Test table if already exists.
-    cursor.execute("DROP TABLE IF EXISTS EMPLOYEE")
-
     # Create table EMPLOYEE
-    table_employee = """ CREATE TABLE EMPLOYEE (
+    table_employee = """ CREATE TABLE IF NOT EXISTS EMPLOYEE (
                 Employee_Id INTEGER PRIMARY KEY,
                 Authentication_Level TINYINT NOT NULL,
                 First_Name CHAR(25) NOT NULL,
@@ -57,35 +49,31 @@ def create_database():
             ); """
     cursor.execute(table_employee)
 
-    # Drop the Test table if already exists.
-    cursor.execute("DROP TABLE IF EXISTS LOGS")
-
     # Create table LOGS
     table_logs = """    
-        CREATE TABLE LOGS (
+        CREATE TABLE IF NOT EXISTS LOGS (
             Log_Id INTEGER PRIMARY KEY,
             Username VARCHAR(20),
             Date DATETIME NOT NULL,
             Time DATETIME NOT NULL,
             Description_Of_Activity VARCHAR(200) NOT NULL,
             Additional_Information VARCHAR(200),
-            Suspicious VARCHAR(3) NOT NULL
+            Suspicious VARCHAR(3) NOT NULL,
+            Read BOOLEAN NOT NULL
         );"""
     cursor.execute(table_logs)
 
+    # Inserts hardcoded Superadmin with username: superadmin and password: Admin321!
     super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today()))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6]))
 
     advisor_tuple_enc = encrypt_employee((2, authentication_level.ADVISOR.value, "Arjan", "B", "Advisor_Arjan", "Wachtwoord123", datetime.today()))
-
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6]))
-    
     cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (advisor_tuple_enc[0], advisor_tuple_enc[1], advisor_tuple_enc[2], advisor_tuple_enc[3], advisor_tuple_enc[4], advisor_tuple_enc[5], advisor_tuple_enc[6]))
     # Commit the changes
     connection.commit()
     
     # Close the connection
     connection.close()
-
 
 # create a function to enter input in database
 def insert_member(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date):
@@ -121,8 +109,8 @@ def insert_log(log_event: LogEvent):
     # Cursor 
     cursor = connection.cursor()
 
-    cursor.execute("""INSERT INTO LOGS (Username, Date, Time, Description_Of_Activity, Additional_Information, Suspicious) 
-    VALUES (?, ?, ?, ?, ?, ?)""", (log_event.username, log_event.date, log_event.time, log_event.description_of_activity, log_event.additional_information, log_event.suspicious))
+    cursor.execute("""INSERT INTO LOGS (Username, Date, Time, Description_Of_Activity, Additional_Information, Suspicious, Read) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)""", (log_event.username, log_event.date, log_event.time, log_event.description_of_activity, log_event.additional_information, log_event.suspicious, False))
     
     connection.commit()
     connection.close()
