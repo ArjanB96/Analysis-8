@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 from utils.encryption import encrypt, encrypt_employee, decrypt, de_or_encrypt_member
-from models.authentication_level_enum import authentication_level
+from models.enums import authentication_level
 from models.log_event import LogEvent
 
 '''

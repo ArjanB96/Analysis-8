@@ -36,5 +36,4 @@ def login():
         # Logs the unsuccuessful login with the username that was used to login
         log_login(False, username)
         print("Invalid username or password")
-        
         return False
