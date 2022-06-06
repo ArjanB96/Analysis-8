@@ -109,7 +109,8 @@ def update_member(member_id, first_name, last_name, street, house_number, zip_co
     # Cursor 
     cursor = connection.cursor()
     
-    cursor.execute("""UPDATE MEMBER SET Member_Id = ?, First_Name = ?, Last_Name = ?, Street = ?, House_Number = ?, Zip_Code = ?, City = ?, Email_Address = ?, Phone_Number = ?, Registration_Date = ? WHERE Member_Id = ?""", (member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old))
+    cursor.execute("""UPDATE MEMBER SET Member_Id = ?, First_Name = ?, Last_Name = ?, Street = ?, House_Number = ?, Zip_Code = ?, City = ?, Email_Address = ?, Phone_Number = ?, 
+    Registration_Date = ? WHERE Member_Id = ?""",(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old))
     
     connection.commit()
     connection.close()
@@ -131,6 +132,21 @@ def show_all_members():
         member_decrypted = de_or_encrypt_member(member, decrypt)
         members_decrypted.append(member_decrypted)
     return members_decrypted
+
+def check_all_member_ids():
+    # Connecting to sqlite
+    connection = sqlite3.connect('pythonsqlite.db')
+
+    # Cursor 
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT Member_Id FROM MEMBER")
+    members = cursor.fetchall()
+
+    members = [member[0] for member in cursor.execute("SELECT Member_Id FROM MEMBER")]
+
+    connection.close()
+    return members
 
 def insert_log(log_event: LogEvent):
     # Connecting to sqlite
