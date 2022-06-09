@@ -4,8 +4,7 @@ from models.log_event import LogEvent
 from models.user import User
 from utils.encryption import encrypt_log, encrypt
 import globals
-from utils.database import insert_log
-import sqlite3
+from utils.database import insert_log, connect_db
 
 def log_login(successful = True, unsuccessful_username=""):
     '''
@@ -154,8 +153,7 @@ def check_notifications():
     if globals.current_user.authentication_level <= 1:
         return False
     
-    connection = sqlite3.connect('pythonsqlite.db')
-    cursor = connection.cursor()
+    connection, cursor = connect_db()
 
     # Gets the row count
     unread_flagged_logs_count = cursor.execute("SELECT Count(*) FROM LOGS WHERE NOT Read AND Suspicious = ?", (encrypt("Yes", secret.SECRET_KEY),)).fetchone()[0]

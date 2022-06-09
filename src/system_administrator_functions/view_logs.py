@@ -1,4 +1,4 @@
-import sqlite3
+from utils.database import connect_db, commit_and_close
 from utils.encryption import decrypt_log_from_tuple
 from utils.logging import check_notifications, log_log_view
 from utils.encryption import encrypt
@@ -8,8 +8,7 @@ def view_all_logs():
     # Logs current activity
     log_log_view()
 
-    connection = sqlite3.connect('pythonsqlite.db')
-    cursor = connection.cursor()
+    connection, cursor = connect_db()
 
     all_encrypted_logs = cursor.execute("SELECT * FROM LOGS")
 
@@ -17,6 +16,7 @@ def view_all_logs():
     all_decrypted_logs = []
     for enc_log_tuple in all_encrypted_logs:
         all_decrypted_logs.append(decrypt_log_from_tuple(enc_log_tuple))
+
     connection.close()
 
     # Prints all the logs
@@ -25,8 +25,8 @@ def view_all_logs():
 def view_unread_flagged_logs():
     # Logs current activity
     log_log_view(True)
-    connection = sqlite3.connect('pythonsqlite.db')
-    cursor = connection.cursor()
+
+    connection, cursor = connect_db()
 
     # Gets all the unread flagged logs from the database
     all_unread_flagged_logs = cursor.execute("SELECT * FROM LOGS WHERE NOT Read AND Suspicious = ?", (encrypt("Yes", secret.SECRET_KEY),)).fetchall()
@@ -36,13 +36,12 @@ def view_unread_flagged_logs():
     for enc_log_tuple in all_unread_flagged_logs:
         all_decrypted_logs.append(decrypt_log_from_tuple(enc_log_tuple))
 
-
     print_logs(all_decrypted_logs)
 
     # Updates all the suspicious logs to read
     cursor.execute("UPDATE LOGS SET Read = True WHERE NOT Read AND Suspicious = ?", (encrypt("Yes", secret.SECRET_KEY),))
-    connection.commit()
-    connection.close()
+
+    commit_and_close(connection)
 
 def view_log_options():
     # If there are notifications, we'd like to ask the admin if they wish to see the unread suspicious logs
