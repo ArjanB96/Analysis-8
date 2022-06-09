@@ -1,5 +1,7 @@
 import re
 import utils.database as db
+from utils.encryption import encrypt
+import secret
 
 def is_valid_mail(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
@@ -71,7 +73,6 @@ def is_valid_password(password):
     if re.fullmatch(regex, password):
         return True
     else:
-        print("Password not following the requirements, try again")
         return False
 
 def is_valid_member_id(member_id):
@@ -117,3 +118,46 @@ def is_valid_registration_date(registration_date):
     if re.fullmatch(regex, registration_date):
         return True
     print("Invalid registration_date, try again")
+
+def is_valid_username(username):
+    '''
+    This function checks if the username is valid.
+    The username: 
+    ○ must be unique and have a length of at least 6 characters
+    ○ must be no longer than 10 characters
+    ○ must be started with a letter
+    ○ can contain letters (a-z), numbers (0-9), underscores (_), apostrophes ('), and periods (.)
+    ○ no distinguish between lowercase or uppercase letters
+    '''
+
+    all_usernames_lowercase = list(map(lambda x: x.lower(), db.check_all_usernames()))
+
+
+    regex = r'^[a-zA-Z][a-zA-Z0-9_.\']{5,9}$'
+    if re.fullmatch(regex, username):
+        if encrypt(username.lower(), secret.SECRET_KEY) not in all_usernames_lowercase:
+            return True
+        elif encrypt(username.lower(), secret.SECRET_KEY) in all_usernames_lowercase:
+            print("Username already exists, try again")
+            return False
+        else:
+            print("Invalid username, try again")
+            return False
+
+
+def is_valid_employee_id(id):
+    
+    all_member_ids = db.check_all_employee_ids()
+
+    # if id is an integer >= 1 and <= 50000 return True
+
+    if id.isdigit() and int(id) in range(1, 50000):
+        if int(id) not in all_member_ids:
+            return True
+
+        elif int(id) in all_member_ids:
+            print("Employee id already exists, try again")
+            return False
+        else:
+            print("Invalid employee id, try again")
+            return False
