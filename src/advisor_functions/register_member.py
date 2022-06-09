@@ -5,52 +5,47 @@ import utils.database as db
 from utils.checksum import generate_checksum_id
 
 def register_member():
-    #ask for first name, can not be empty
-    #we have to think about how many characters we can have (to store in DB aswell) 25 for now
+    
+    # first name
     first_name = input("Enter your first name: ")
     while not value_checks.is_valid_name(first_name):
         first_name = input("First name can not be empty. Enter your first name: ")
     first_name_enc = encrypt(first_name, secret.SECRET_KEY)
     
-    #ask for last name, can not be empty
-    #we have to think about how many characters we can have (to store in DB aswell) 25 for now
+    # last name
     last_name = input("Enter your last name: ")
     while not value_checks.is_valid_name(last_name):
         last_name = input("Last name can not be empty. Enter your last name: ")
     last_name_enc = encrypt(last_name, secret.SECRET_KEY)
 
-    #ask for street, can not be empty
-    #we have to think about how many characters we can have (to store in DB aswell) 40 for now
+    # street
     street = input("Enter your street: ")
     while not value_checks.is_valid_street(street):
         street = input("Street can not be empty. Enter your street: ")
     street_enc = encrypt(street, secret.SECRET_KEY)
 
-    #ask for house number
+    # house number
     house_number = input("Enter house number: ")
     while not value_checks.is_valid_house_number(house_number):
         house_number = input("Enter house number: ")
     house_number_enc = encrypt(house_number, secret.SECRET_KEY)
 
-    #ask for zip code, can only be 6 length
+    # zip code
     zip_code = input("Enter zip code: ")
     while not value_checks.is_valid_zip_code(zip_code):
         zip_code = input("Enter zip code: ")
     zip_code_enc = encrypt(zip_code, secret.SECRET_KEY)
 
-    #we should write a validation if we make sure that we know what the assignment wants
-    # made a function to choose city
-    # to re-use it in changing information
+    # a function to choose city to re-use it in changing information
     city = choose_city()
     
-    
-    #ask for email, it's checking if there's a '@' and a '.' in the email address
+    # email
     email = input("Enter email: ")
     while not value_checks.is_valid_mail(email):
         email = input("Enter email: ")
     email_enc = encrypt(email, secret.SECRET_KEY)
 
-    # check if the phone number is only 8 digits else try again
+    # phone number
     mobile_phone = input("Enter mobile phone: ")
     while not value_checks.is_valid_phonenumber(mobile_phone):
         mobile_phone = input("Enter last 8 digits of mobile phone number (+31-6-DDDDDDDD): ")

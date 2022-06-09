@@ -1,12 +1,14 @@
 from advisor_functions.search_member_information import search_member_information
 import globals
 from utils.encryption import encrypt
-import utils.value_checks as value_checks, secret
+import utils.value_checks as value_checks
+import secret
 import utils.database as db
 from advisor_functions import search_member_information
 from advisor_functions.register_member import choose_city
 
 def update_member_info():
+
 
     list_of_members = search_member_information.search_member_information()
 
@@ -141,14 +143,14 @@ def update_member_info():
             return
             
 def print_update_info():
-    print("1. Edit member_id")
-    print("2. Edit first_name")
-    print("3. Edit last_name")
+    print("1. Edit member id")
+    print("2. Edit first name")
+    print("3. Edit last name")
     print("4. Edit street")
     print("5. Edit house_number")
-    print("6. Edit zip_code")
+    print("6. Edit zip code")
     print("7. Edit city")
     print("8. Edit email")
-    print("9. Edit phone_number")
-    print("10. Edit registration_date")
+    print("9. Edit phone number")
+    print("10. Edit registration date")
     print("11. Exit")

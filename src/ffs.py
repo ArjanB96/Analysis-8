@@ -6,9 +6,8 @@ from models.enums import authentication_level
 import globals
 
 while True:
-    #database.create_database()             #<- creates database if it's your first time running the program
 
-    #register_member.register_member()
+    #create_database()             #<- creates database if it's your first time running the program
 
     if (login()):
 
