@@ -2,7 +2,7 @@ import secret
 from models.enums import log_user_options, log_backup_options, log_lookup_options
 from models.log_event import LogEvent
 from models.user import User
-from utils.encryption import encrypt_log, decrypt_log_from_tuple, encrypt
+from utils.encryption import encrypt_log, encrypt
 import globals
 from utils.database import insert_log
 import sqlite3
@@ -136,21 +136,32 @@ def log_lookup(lookup_option: log_lookup_options, member_lookup_search = ""):
     # Inserts an encrypted LogEvent into the database
     insert_log(encrypt_log(LogEvent(username, description, additional_info, "No")))
 
-def notifications():
-    '''NOTE: not final!'''
+def log_log_view(suspicious_viewed = False):
+    '''
+    Logs the 'view logs' activity
+    '''
+    username = globals.current_user.username
+    description = f"{'Suspicious' if suspicious_viewed else ''} Log file(s) viewed"
+    insert_log(encrypt_log(LogEvent(username, description, "", "No")))
+
+def check_notifications():
+    '''
+    Checks if the user is an admin. If the user is an admin. It will print the amount of unread suspicious logs if there are any. Otherwise doesn't print anything. 
+    Returns True if there are notifications, else False
+    '''
+
+    # Only Admins can view the log(s) and thus only they should see the notifications
+    if globals.current_user.authentication_level <= 1:
+        return False
+    
     connection = sqlite3.connect('pythonsqlite.db')
     cursor = connection.cursor()
 
-    unread_flagged_logs = cursor.execute("SELECT * FROM LOGS WHERE NOT Read AND Suspicious = (?)", encrypt("Yes", secret.SECRET_KEY))
+    # Gets the row count
+    unread_flagged_logs_count = cursor.execute("SELECT Count(*) FROM LOGS WHERE NOT Read AND Suspicious = ?", (encrypt("Yes", secret.SECRET_KEY),)).fetchone()[0]
 
-    amount_of_notifs = len(unread_flagged_logs)
-
-
-def read_logs():
-    ''' NOTE: not final'''
-    connection = sqlite3.connect('pythonsqlite.db')
-    cursor = connection.cursor()
-
-    list_with_tuples = cursor.execute("SELECT * FROM LOGS").fetchall()
-    for i in list_with_tuples:
-        print(decrypt_log_from_tuple(i))
+    if unread_flagged_logs_count > 0:
+        print(f"\nALERT!\nThere are unread suspicious activities.\nAmount of unread suspicious activities:", unread_flagged_logs_count)
+        connection.close()
+        return True
+    return False

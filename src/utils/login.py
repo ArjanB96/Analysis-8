@@ -24,6 +24,7 @@ def login():
         'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username_enc, password,))
 
     user_tuple = check_username_and_password.fetchone()
+    connection.close()
 
     if user_tuple is not None:
         globals.current_user = User(decrypt_employee(user_tuple))
