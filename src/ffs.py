@@ -1,8 +1,8 @@
 import advisor_functions.register_member as register_member, utils.database as database, utils.login as login
+from utils.logging import check_notifications
 from utils.login import login
 from user_options import read_options
 from models.enums import authentication_level
-from utils.logging import read_logs
 import globals
 
 while True:
@@ -14,6 +14,8 @@ while True:
 
         #check authentication_level in global current_user
         authentication_lvl = globals.current_user.authentication_level
+
+        check_notifications()
 
         if authentication_lvl == 1:
             read_options(authentication_level.ADVISOR)

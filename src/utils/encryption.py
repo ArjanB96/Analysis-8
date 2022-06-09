@@ -92,30 +92,24 @@ def decrypt_employee(employee: tuple):
 def encrypt_employee(employee: tuple):
     return de_or_encrypt_employee(employee, encrypt)
 
-def de_or_encrypt_log(log_event: LogEvent, function: object):
+def encrypt_log(log_event: LogEvent):
     result = LogEvent(
-        function(log_event.username, secret.SECRET_KEY),                
-        function(log_event.description_of_activity, secret.SECRET_KEY), 
-        function(log_event.additional_information, secret.SECRET_KEY),
-        function(log_event.suspicious, secret.SECRET_KEY)
+        encrypt(log_event.username, secret.SECRET_KEY),                
+        encrypt(log_event.description_of_activity, secret.SECRET_KEY), 
+        encrypt(log_event.additional_information, secret.SECRET_KEY),
+        encrypt(log_event.suspicious, secret.SECRET_KEY)
     )
     return result
 
-def decrypt_log(log_event: LogEvent):
-    return de_or_encrypt_employee(log_event, decrypt)
-
-def encrypt_log(log_event: LogEvent):
-    return de_or_encrypt_log(log_event, encrypt)
-
 def decrypt_log_from_tuple(log_event: tuple):
     result = (
-        log_event[0],
-        decrypt(log_event[1], secret.SECRET_KEY),
-        log_event[2],
-        log_event[3],
-        decrypt(log_event[4], secret.SECRET_KEY),
-        decrypt(log_event[5], secret.SECRET_KEY),
-        decrypt(log_event[6], secret.SECRET_KEY),
-        log_event[7]
+        log_event[0],                               #Log_Id
+        decrypt(log_event[1], secret.SECRET_KEY),   # Username
+        log_event[2],                               # Date
+        log_event[3],                               # Time
+        decrypt(log_event[4], secret.SECRET_KEY),   # Description_Of_Activity
+        decrypt(log_event[5], secret.SECRET_KEY),   # Additional_Information
+        decrypt(log_event[6], secret.SECRET_KEY),   # Suspicious
+        log_event[7]                                # Read
     )
     return result

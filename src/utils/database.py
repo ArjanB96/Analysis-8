@@ -56,8 +56,8 @@ def create_database():
             Username VARCHAR(20),
             Date DATETIME NOT NULL,
             Time DATETIME NOT NULL,
-            Description_Of_Activity VARCHAR(200) NOT NULL,
-            Additional_Information VARCHAR(200),
+            Description_Of_Activity VARCHAR(50) NOT NULL,
+            Additional_Information VARCHAR(100),
             Suspicious VARCHAR(3) NOT NULL,
             Read BOOLEAN NOT NULL
         );"""

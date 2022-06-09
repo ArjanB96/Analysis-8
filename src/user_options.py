@@ -3,7 +3,7 @@ from advisor_functions.register_member import *
 from advisor_functions.update_password import *
 from system_administrator_functions import * 
 from advisor_functions import update_member_info, search_member_information
-from system_administrator_functions import backup
+from system_administrator_functions import backup, view_logs
 
 '''
 Authentication_Level: 0 = member
@@ -107,6 +107,7 @@ def read_options(auth_level):
         
         # View the log file(s) 
         elif user_input == "11":
+            view_logs.view_log_options()
             continue
         
         # Delete member 
