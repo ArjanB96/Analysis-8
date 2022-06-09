@@ -1,4 +1,4 @@
-import sqlite3
+from utils.database import connect_db
 from utils.encryption import encrypt, decrypt_employee
 from utils.logging import log_login
 import secret
@@ -10,8 +10,7 @@ def login():
     Handles the login
     Returns whether the login was successful or not
     '''
-    connection = sqlite3.connect('pythonsqlite.db')
-    cursor = connection.cursor()
+    connection, cursor = connect_db()
 
     print("Login page")
     # If login was unsuccessful, the unencrypted username will be added to a log

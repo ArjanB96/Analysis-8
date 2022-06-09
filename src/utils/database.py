@@ -1,11 +1,9 @@
 import sqlite3
 from datetime import datetime
-from django.db import connection
 from secret import SECRET_KEY
 from utils.encryption import encrypt, encrypt_employee, decrypt, de_or_encrypt_member, de_or_encrypt_employee
 from models.enums import authentication_level
 from models.log_event import LogEvent
-import secrets
 
 '''
 This is the code to create a database and add a member table and a employee table
@@ -115,7 +113,7 @@ def show_all_members():
     return members_decrypted
 
 def check_all_member_ids():
-    cursor = connect_db()
+    connection, cursor = connect_db()
     cursor.execute("SELECT Member_Id FROM MEMBER")
     members = cursor.fetchall()
     members = [member[0] for member in cursor.execute("SELECT Member_Id FROM MEMBER")]
@@ -131,7 +129,7 @@ def check_all_employee_ids():
         return employees
 
 def check_all_usernames():
-        cursor,connection = connect_db() 
+        connection, cursor = connect_db() 
         cursor.execute("SELECT Username FROM EMPLOYEE")
         members = cursor.fetchall()
         members = [member[0] for member in cursor.execute("SELECT Username FROM EMPLOYEE")]
@@ -147,8 +145,8 @@ def view_users_and_roles():
         for employee in employees:
             employee_decrypted = de_or_encrypt_employee(employee, decrypt)
             employees_decrypted.append(employee_decrypted)
-        return employees_decrypted
         connection.close()
+        return employees_decrypted
 
 
 def reset_advisor_pass(password, employee_id):
