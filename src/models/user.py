@@ -7,3 +7,4 @@ class User():
         self.username = user_tuple[4]
         self.password = user_tuple[5]
         self.registration_date = user_tuple[6]
+        self.changed_pass = user_tuple[7]

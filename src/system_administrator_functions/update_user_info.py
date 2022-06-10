@@ -3,20 +3,23 @@ import utils.value_checks as value_checks
 import secret
 from utils.encryption import encrypt
 
-def get_advisor_info():
+def get_user_info(role):
 
-    advisors_decrypted = db.view_users_and_roles()
+    advisors_decrypted = db.view_users_and_roles("advisor")
+    admins_decrypted = db.view_users_and_roles("admin")
+    all_decrypted = db.view_users_and_roles("all")
 
-    if advisors_decrypted == None or len(advisors_decrypted) == 0:
-        print("\nNo advisors found")
-        return
+    if role == "advisor":
+        if advisors_decrypted == None or len(advisors_decrypted) == 0:
+            print("\nNo advisors found")
+            return
 
-    #if advisors were found, print them        
-    else:
-        print("Following advisors(s) were found: \n")
-        # print found advisors with a number
-        for i in range(len(advisors_decrypted)):
-            print(f"{i}: {advisors_decrypted[i]}")
+        #if advisors were found, print them        
+        else:
+            print(f"Following advisor(s) were found: \n")
+            # print found advisors/admins with a number
+            for i in range(len(advisors_decrypted)):
+                print(f"{i}: {advisors_decrypted[i]}")
 
         # select an advisor
         while True:
@@ -28,15 +31,46 @@ def get_advisor_info():
                 print("\nInvalid input, try again")
                 continue
             print("\nInvalid input, try again")
-        
-        # selected advisor is
-        selected_advisor = advisors_decrypted[advisor_index]
-        print(f"The selected advisor is {selected_advisor} \n")
 
-    return selected_advisor
+        # selected user is
+        selected_user = advisors_decrypted[advisor_index]
+        print(f"The selected advisor is {selected_user} \n")
 
-def update_advisor_info():
-    selected_advisor = get_advisor_info()
+    elif role == "admin":
+        if admins_decrypted == None or len(admins_decrypted) == 0:
+            print("\nNo admins found")
+            return
+
+        #if admins were found, print them
+        else:
+            print(f"Following admin(s) were found: \n")
+
+            # print found advisors/admins with a number
+            for i in range(len(admins_decrypted)):
+                print(f"{i}: {admins_decrypted[i]}")
+
+        # select an admin
+        while True:
+            try:
+                admin_index = int(input("\nSelect an admin: "))
+                if admin_index < len(admins_decrypted) and admin_index >= 0:
+                    break
+            except ValueError:
+                print("\nInvalid input, try again")
+                continue
+            print("\nInvalid input, try again")
+
+        # selected user is
+        selected_user = admins_decrypted[admin_index]
+        print(f"The selected admin is {selected_user} \n")
+
+    return selected_user
+
+def update_user_info(role):
+    if role == "advisor":
+        selected_advisor = get_user_info("advisor")
+    elif role == "admin":
+        selected_advisor = get_user_info("admin")
     print_update_info()
     
     choice = input(f"\nEnter a number to edit a member's information: ")
@@ -44,22 +78,23 @@ def update_advisor_info():
         print("\nEnter a valid integer number representing a choice")
         choice = input(f"\nEnter a number to edit a member's information: ")
    
-    # new advisor id
+    # new id
     if choice == "1":
         new_employee_id = input("Enter new employee id: ")
         while not value_checks.is_valid_employee_id(new_employee_id):
             new_employee_id = input("Enter new employee_id: ")
-        db.update_advisor(new_employee_id, encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), 
+        db.update_user(new_employee_id, role, encrypt(selected_advisor[2], secret.SECRET_KEY), 
         encrypt(selected_advisor[3], secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), 
         selected_advisor[6], selected_advisor[0])
         print("Employee_id updated")
     
+
     # new first name
     elif choice == "2":
         new_first_name = input("Enter new first name: ")
         while not value_checks.is_valid_name(new_first_name):
             new_first_name = input("Enter new first name: ")
-        db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_advisor[3], 
+        db.update_user(selected_advisor[0], role, encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_advisor[3], 
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY),
         selected_advisor[6], selected_advisor[0])
         print("First name updated")
@@ -69,16 +104,17 @@ def update_advisor_info():
         new_last_name = input("Enter new last name: ")
         while not value_checks.is_valid_name(new_last_name):
             new_last_name = input("Enter new last name: ")
-        db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(new_last_name,
+        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(new_last_name,
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
         print("Last name updated")
     
     # new username
     elif choice == "4":
+        print("The user name must unique and can not be longer than 10 characters")
         new_username = input("Enter new username: ")
         while not value_checks.is_valid_username(new_username):
             new_username = input("Enter new username: ")
-        db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
+        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
         print("Username updated")
     
@@ -88,7 +124,7 @@ def update_advisor_info():
         while not value_checks.is_valid_password(new_password):
             print("Password not following the requirements, try again")
             new_password = input("Enter new password: ")
-        db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
+        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
         print("Password updated")
     
@@ -97,7 +133,7 @@ def update_advisor_info():
         new_registration_date = input("Enter new registration date: ")
         while not value_checks.is_valid_registration_date(new_registration_date):
             new_registration_date = input("Enter new registration date: ")  
-        db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
+        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), new_registration_date, selected_advisor[0])
         print("Registration date updated")
 

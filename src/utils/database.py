@@ -42,7 +42,8 @@ def create_database():
                 Last_Name CHAR(25) NOT NULL,
                 Username ChAR(25) NOT NULL,
                 Password CHAR(25) NOT NULL,
-                Registration_Date DATE NOT NULL
+                Registration_Date DATE NOT NULL,
+                Changed_Pass BOOLEAN NOT NULL
             ); """
     cursor.execute(table_employee)
 
@@ -61,12 +62,12 @@ def create_database():
     cursor.execute(table_logs)
 
     # Inserts hardcoded Superadmin with username: superadmin and password: Admin321!
-    super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today()))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6]))
-    administator_tuple_enc = encrypt_employee((2, authentication_level.SYSTEM_ADMINISTRATOR.value, "Arjan", "Belder", "admin", "admin", datetime.today()))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (administator_tuple_enc[0], administator_tuple_enc[1], administator_tuple_enc[2], administator_tuple_enc[3], administator_tuple_enc[4], administator_tuple_enc[5], administator_tuple_enc[6]))
-    advisor_tuple_enc = encrypt_employee((3, authentication_level.ADVISOR.value, "Arjan", "B", "Advisor_Arjan", "Wachtwoord123", datetime.today()))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (advisor_tuple_enc[0], advisor_tuple_enc[1], advisor_tuple_enc[2], advisor_tuple_enc[3], advisor_tuple_enc[4], advisor_tuple_enc[5], advisor_tuple_enc[6]))
+    super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today(), False))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6], False))
+    administator_tuple_enc = encrypt_employee((2, authentication_level.SYSTEM_ADMINISTRATOR.value, "Arjan", "Belder", "admin", "admin", datetime.today(), False))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (administator_tuple_enc[0], administator_tuple_enc[1], administator_tuple_enc[2], administator_tuple_enc[3], administator_tuple_enc[4], administator_tuple_enc[5], administator_tuple_enc[6], False))
+    advisor_tuple_enc = encrypt_employee((3, authentication_level.ADVISOR.value, "Arjan", "B", "Advisor_Arjan", "Wachtwoord123", datetime.today(), False))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (advisor_tuple_enc[0], advisor_tuple_enc[1], advisor_tuple_enc[2], advisor_tuple_enc[3], advisor_tuple_enc[4], advisor_tuple_enc[5], advisor_tuple_enc[6], False))
     commit_and_close(connection)
 
 # function to enter input in database
@@ -77,12 +78,12 @@ def insert_member(member_id, first_name, last_name, street, house_number, zip_co
 
 def insert_advisor(authentication_level, first_name, last_name, username, password, registration_date):
     connection, cursor = connect_db()
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?)", (None, authentication_level, first_name, last_name, username, password, registration_date))
+    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (None, authentication_level, first_name, last_name, username, password, registration_date, False))
     commit_and_close(connection)
 
 def update_password(username, password):
     connection, cursor = connect_db()
-    cursor.execute("""UPDATE EMPLOYEE SET Password = ? WHERE Username = ?""", (password, username))
+    cursor.execute("""UPDATE EMPLOYEE SET Password = ?, Changed_Pass = ? WHERE Username = ?""", (password, False, username))
     commit_and_close(connection)
 
 def update_member(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old):
@@ -91,15 +92,28 @@ def update_member(member_id, first_name, last_name, street, house_number, zip_co
     Registration_Date = ? WHERE Member_Id = ?""",(member_id, first_name, last_name, street, house_number, zip_code, city, email, phone_number, registration_date, member_id_old))
     commit_and_close(connection)
 
-def update_advisor(employee_id, authentication_level, first_name, last_name, username, password, registration_date, employee_id_old):
+def update_user(employee_id, role, first_name, last_name, username, password, registration_date, employee_id_old):
     connection, cursor = connect_db() 
-    cursor.execute("""UPDATE EMPLOYEE SET Employee_Id = ?, Authentication_Level = ?, First_Name = ?, Last_Name = ?, Username = ?, Password = ?, Registration_Date = ? WHERE Employee_Id = ?""",(employee_id, authentication_level, first_name, last_name, username, password, registration_date, employee_id_old))
+    if role == "advisor":
+        auth_level = int(encrypt(str(1), SECRET_KEY))
+    elif role == "admin":
+        auth_level = int(encrypt(str(2), SECRET_KEY))
+    if role == "advisor" or "admin":
+        cursor.execute("""UPDATE EMPLOYEE SET Employee_Id = ?, Authentication_Level = ?, First_Name = ?, Last_Name = ?, Username = ?, Password = ?, Registration_Date = ?, 
+        Changed_Pass = ? WHERE Employee_Id = ?""", (employee_id, auth_level, first_name, last_name, username, password, registration_date, False, employee_id_old))
+    #cursor.execute("""UPDATE EMPLOYEE SET Employee_Id = ?, Authentication_Level = ?, First_Name = ?, Last_Name = ?, Username = ?, Password = ?, Registration_Date = ?, 
+    #Changed_Pass = ? WHERE Employee_Id = ?""",(employee_id, auth_level, first_name, last_name, username, password, registration_date, False, employee_id_old))
     commit_and_close(connection)
 
-def delete_advisor(employee_id):
+def delete_user(employee_id):
         connection, cursor = connect_db() 
         cursor.execute("""DELETE FROM EMPLOYEE WHERE Employee_Id = ?""", (employee_id,))
         commit_and_close(connection)
+
+def delete_member(member_id):
+    connection, cursor = connect_db() 
+    cursor.execute("""DELETE FROM MEMBER WHERE Member_Id = ?""", (member_id,))
+    commit_and_close(connection)
 
 def show_all_members():
     connection, cursor = connect_db() 
@@ -136,10 +150,16 @@ def check_all_usernames():
         connection.close()
         return members
 
-def view_users_and_roles():        	
-        advisor_auth_level = int(encrypt(str(1), SECRET_KEY))
+def view_users_and_roles(role):   
+        if role == "advisor":     	
+            auth_level = int(encrypt(str(1), SECRET_KEY))
+        elif role == "admin":
+            auth_level = int(encrypt(str(2), SECRET_KEY))
         connection, cursor = connect_db()
-        cursor.execute("SELECT * FROM EMPLOYEE WHERE Authentication_Level = ?", (advisor_auth_level,))
+        if role == "advisor" or role == "admin": 
+            cursor.execute("SELECT * FROM EMPLOYEE WHERE Authentication_Level = ?", (auth_level,))
+        elif role == "all":
+            cursor.execute("SELECT * FROM EMPLOYEE")
         employees = cursor.fetchall()
         employees_decrypted = []
         for employee in employees:
@@ -149,9 +169,9 @@ def view_users_and_roles():
         return employees_decrypted
 
 
-def reset_advisor_pass(password, employee_id):
+def reset_user_pass(password, employee_id):
         connection, cursor = connect_db()
-        cursor.execute("""UPDATE EMPLOYEE SET Password = ? WHERE Employee_Id = ?""", (password, employee_id))
+        cursor.execute("""UPDATE EMPLOYEE SET Password = ?, Changed_Pass = ? WHERE Employee_Id = ?""", (password, True, employee_id))
         commit_and_close(connection)
 
 def insert_log(log_event: LogEvent):

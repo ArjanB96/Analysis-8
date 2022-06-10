@@ -4,9 +4,9 @@ import utils.value_checks as value_checks, secret
 import utils.database as db
 from models.enums import authentication_level
 
-def view_users_and_roles():
+def view_users_and_roles(role):
 
-    users_decrypted = db.view_users_and_roles()
+    users_decrypted = db.view_users_and_roles("all")
 
     if len(users_decrypted) == 0:
         print("\nNo users found\n")

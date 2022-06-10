@@ -24,13 +24,12 @@ def login():
 
     user_tuple = check_username_and_password.fetchone()
     connection.close()
-
     if user_tuple is not None:
         globals.current_user = User(decrypt_employee(user_tuple))
 
         # Logs the successful login
         log_login()
-
+        print(f"\nWelcome {globals.current_user.username}")
         return True
     else:
         # Logs the unsuccuessful login with the username that was used to login
