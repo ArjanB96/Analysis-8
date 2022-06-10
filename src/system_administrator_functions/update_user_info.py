@@ -68,9 +68,13 @@ def get_user_info(role):
 
 def update_user_info(role):
     if role == "advisor":
-        selected_advisor = get_user_info("advisor")
+        selected_user = get_user_info("advisor")
     elif role == "admin":
-        selected_advisor = get_user_info("admin")
+        selected_user = get_user_info("admin")
+    
+    if selected_user == None:
+        return
+        
     print_update_info()
     
     choice = input(f"\nEnter a number to edit a member's information: ")
@@ -83,9 +87,9 @@ def update_user_info(role):
         new_employee_id = input("Enter new employee id: ")
         while not value_checks.is_valid_employee_id(new_employee_id):
             new_employee_id = input("Enter new employee_id: ")
-        db.update_user(new_employee_id, role, encrypt(selected_advisor[2], secret.SECRET_KEY), 
-        encrypt(selected_advisor[3], secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), 
-        selected_advisor[6], selected_advisor[0])
+        db.update_user(new_employee_id, role, encrypt(selected_user[2], secret.SECRET_KEY), 
+        encrypt(selected_user[3], secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), 
+        selected_user[6], selected_user[0])
         print("Employee_id updated")
     
 
@@ -94,9 +98,9 @@ def update_user_info(role):
         new_first_name = input("Enter new first name: ")
         while not value_checks.is_valid_name(new_first_name):
             new_first_name = input("Enter new first name: ")
-        db.update_user(selected_advisor[0], role, encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_advisor[3], 
-        secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY),
-        selected_advisor[6], selected_advisor[0])
+        db.update_user(selected_user[0], role, encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_user[3], 
+        secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY),
+        selected_user[6], selected_user[0])
         print("First name updated")
 
     # new last name
@@ -104,8 +108,8 @@ def update_user_info(role):
         new_last_name = input("Enter new last name: ")
         while not value_checks.is_valid_name(new_last_name):
             new_last_name = input("Enter new last name: ")
-        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(new_last_name,
-        secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(new_last_name,
+        secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
         print("Last name updated")
     
     # new username
@@ -114,8 +118,8 @@ def update_user_info(role):
         new_username = input("Enter new username: ")
         while not value_checks.is_valid_username(new_username):
             new_username = input("Enter new username: ")
-        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
-        secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
+        secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
         print("Username updated")
     
     # new password
@@ -124,8 +128,8 @@ def update_user_info(role):
         while not value_checks.is_valid_password(new_password):
             print("Password not following the requirements, try again")
             new_password = input("Enter new password: ")
-        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
-        secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
+        secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_user[6], selected_user[0])
         print("Password updated")
     
     # new registration date
@@ -133,8 +137,8 @@ def update_user_info(role):
         new_registration_date = input("Enter new registration date: ")
         while not value_checks.is_valid_registration_date(new_registration_date):
             new_registration_date = input("Enter new registration date: ")  
-        db.update_user(selected_advisor[0], role, encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
-        secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), new_registration_date, selected_advisor[0])
+        db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
+        secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), new_registration_date, selected_user[0])
         print("Registration date updated")
 
     # exit
