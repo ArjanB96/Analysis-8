@@ -1,5 +1,6 @@
 from system_administrator_functions import update_user_info as ua
 import utils.database as db
+from utils.bcolors import *
 
 def delete_user(role):
     if role == "advisor":
@@ -8,22 +9,22 @@ def delete_user(role):
         selected_user = ua.get_user_info("admin")
 
     if selected_user != None:
-        print(f"Are you sure you want to delete {selected_user[4]}?")
+        print(f"{bcolors.WARNING}Are you sure you want to delete {selected_user[4]}?{bcolors.ENDC}")
         choice = input("Enter 'y' to delete or 'n' to cancel: ")
         while choice not in ["y", "n"]:
-            print("Enter a valid choice")
+            print(f"{bcolors.FAIL}Enter a valid choice{bcolors.ENDC}")
             choice = input("Enter 'y' to delete or 'n' to cancel: ")
 
         if choice == "y":
             db.delete_user(selected_user[0])
             if role == "advisor":
-                print("Advisor deleted")
+                print(f"{bcolors.OKBLUE}Advisor deleted{bcolors.ENDC}")
             elif role == "admin":
-                print("Admin deleted")
+                print(f"{bcolors.OKBLUE}Admin deleted{bcolors.ENDC}")
 
         elif choice == "n":
-            print("Canceled")
+            print(f"{bcolors.OKBLUE}Canceled{bcolors.ENDC}")
 
         else:
-            print("Invalid choice")
+            print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}")
 

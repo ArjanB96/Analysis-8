@@ -36,11 +36,10 @@ options_dict = {
 }
 
 def print_incorrect_input():
-    print("Incorrect input. Please try again")
+    print(f"{bcolors.FAIL}Incorrect input. Please try again{bcolors.ENDC}\n")
 
 def show_options(auth_level):
     '''Shows all the options with the given authentication_level'''
-    print("")
     for key, value in options_dict.items():
         if (auth_level.value >= value):
             print(key)

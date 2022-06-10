@@ -2,6 +2,7 @@ import globals
 from utils.encryption import encrypt
 import utils.value_checks as value_checks, secret
 import utils.database as db
+from utils.bcolors import *
 
 def update_password():
     print("Update password")
@@ -9,7 +10,7 @@ def update_password():
 
     # check if the old password is correct
     while not globals.current_user.password == old_password:
-        print("Incorrect password")
+        print(f"{bcolors.FAIL}Incorrect password{bcolors.ENDC}")
         old_password = input("Enter old password: ") 
 
     # Display password rules in console
@@ -20,12 +21,13 @@ def update_password():
 
     # Check if the new password is valid
     while not value_checks.is_valid_password(new_password):
+        print(f"{bcolors.FAIL}Passwords not following the rules, try again{bcolors.ENDC}")
         new_password = input("Enter new password: ") 
         new_password_confirm = input("Confirm new password: ")
 
     # Check if the new password and the confirmation password are the same
     while new_password != new_password_confirm:
-        print("Passwords do not match, try again")
+        print(f"{bcolors.FAIL}Passwords do not match, try again{bcolors.ENDC}")
         new_password = input("Enter new password: ") 
         new_password_confirm = input("Confirm new password: ")
 
@@ -35,7 +37,7 @@ def update_password():
     # Password to put in database is encrypted
     db.update_password(encrypt(globals.current_user.username, secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY))
 
-    print("Password updated")
+    print(f"{bcolors.OKBLUE}\nPassword updated{bcolors.ENDC}\n")
     return
 
 def password_rules():

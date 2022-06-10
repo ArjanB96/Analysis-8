@@ -6,6 +6,7 @@ import secret
 import utils.database as db
 from advisor_functions import search_member_information
 from advisor_functions.register_member import choose_city
+from utils.bcolors import *
 
 def delete_member():
 
@@ -23,28 +24,28 @@ def delete_member():
         try:
             key = int(key)
         except ValueError:
-            print("Incorrect input. Please try again")
+            print(f"{bcolors.FAIL}Incorrect input. Please try again{bcolors.ENDC}\n")
             return
 
         # if they key is in the range of list_of members
         while key not in range(len(list_of_members)):
-            print("\nEnter a valid integer number representing a member")
-            key = int(input("\nEnter a number to select a member: "))
+            print(f"\n{bcolors.FAIL}Enter a valid integer number representing a member{bcolors.ENDC}")
+            key = int(input(f"\n{bcolors.FAIL}Enter a number to select a member: {bcolors.ENDC}"))
         
         member = list_of_members[key]
 
-        print(f"Are you sure you want to delete the member: {member[1]} {member[2]}?")
+        print(f"{bcolors.WARNING}Are you sure you want to delete the member: {member[1]} {member[2]}?{bcolors.ENDC}")
         choice = input("Enter 'y' to delete or 'n' to cancel: ")
         while choice not in ["y", "n"]:
-            print("Enter a valid choice")
+            print(f"{bcolors.FAIL}Enter a valid choice{bcolors.ENDC}")
             choice = input("Enter 'y' to delete or 'n' to cancel: ")
 
         if choice == "y":
             db.delete_member(member[0])
-            print("Member deleted")
+            print(f"{bcolors.OKBLUE}Member deleted{bcolors.ENDC}")
 
         elif choice == "n":
-            print("Canceled")
+            print(f"{bcolors.OKBLUE}Canceled{bcolors.ENDC}")
 
         else:
-            print("Invalid choice")
+            print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}")

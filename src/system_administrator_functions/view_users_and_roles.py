@@ -3,13 +3,14 @@ from utils.encryption import encrypt
 import utils.value_checks as value_checks, secret
 import utils.database as db
 from models.enums import authentication_level
+from utils.bcolors import *
 
 def view_users_and_roles(role):
 
     users_decrypted = db.view_users_and_roles("all")
 
     if len(users_decrypted) == 0:
-        print("\nNo users found\n")
+        print(f"\n{bcolors.FAIL}No users found\n{bcolors.ENDC}")
         return
     else:
         print("Following user(s) were found: \n")

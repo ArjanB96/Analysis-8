@@ -2,37 +2,38 @@ import re
 import utils.database as db
 from utils.encryption import encrypt
 import secret
+from utils.bcolors import *
 
 def is_valid_mail(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if re.fullmatch(regex, email):
         return True
-    print("Invalid email, please try again")
+    print(f"{bcolors.FAIL}Invalid email. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_phonenumber(phone_number):
     regex = r'[0-9]{8}'
     if re.fullmatch(regex, phone_number):
         return True
-    print("Invalid phone number, please try again")
+    print(f"{bcolors.FAIL}Invalid phone number, Only 8 digits are acceptable. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_house_number(house_number):
     if len(house_number) < 10 and house_number.isdigit():
         return True
-    print("Invalid house number, please try again")
+    print(f"{bcolors.FAIL}Invalid house number, only integers are accepted. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_name(name):
     if name != "" and len(name) <= 25:
         return True
-    print("Invalid first name, try again")
+    print(f"{bcolors.FAIL}Invalid first name, characters have to stay under 25 characters. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_street(street):
     if street != "" and len(street) <= 40:
         return True
-    print("Invalid street, try again")
+    print(f"{bcolors.FAIL}Invalid street, characters have to stay under 40 charachters. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_zip_code(zip_code):
@@ -46,7 +47,7 @@ def is_valid_zip_code(zip_code):
     regex = r'^[1-9][0-9]{3} ?(?!sa|sd|ss|SA|SD|SS|sA|sD|sS|Sa|Sd|Ss)[a-zA-Z]{2}$'
     if re.fullmatch(regex, zip_code):
         return True
-    print("Invalid zip code, try again")
+    print(f"{bcolors.FAIL}Invalid zip code, the only acceptable zip codes are 4 digits and 2 letters. Please try again{bcolors.ENDC}")
     return False
 
 def is_valid_city(city):
@@ -54,7 +55,7 @@ def is_valid_city(city):
     
     if city.isdigit() and int(city) in range(1, 11):
         return True
-    print("Invalid city, try again")
+    print(f"{bcolors.FAIL}Invalid city, try again{bcolors.ENDC}")
     return False
  
 
@@ -100,10 +101,10 @@ def is_valid_member_id(member_id):
         if int(member_id) not in all_member_ids:
             return True
         elif int(member_id) in all_member_ids:
-            print("Member id already exists, try again")
+            print(f"{bcolors.FAIL}Member id already exists. Please try again{bcolors.ENDC}")
             return False
         else:
-            print("Invalid member id, try again")
+            print(f"{bcolors.FAIL}Invalid member id. Please try again{bcolors.ENDC}")
             return False
 
 def is_valid_registration_date(registration_date):
@@ -117,7 +118,7 @@ def is_valid_registration_date(registration_date):
     regex = r'^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{6}$'
     if re.fullmatch(regex, registration_date):
         return True
-    print("Invalid registration_date, try again")
+    print(f"{bcolors.FAIL}Invalid registration_date, try again{bcolors.ENDC}")
 
 def is_valid_username(username):
     '''
@@ -138,10 +139,10 @@ def is_valid_username(username):
         if encrypt(username.lower(), secret.SECRET_KEY) not in all_usernames_lowercase:
             return True
         elif encrypt(username.lower(), secret.SECRET_KEY) in all_usernames_lowercase:
-            print("Username already exists, try again")
+            print(f"{bcolors.FAIL}Username already exists. Please try again{bcolors.ENDC}")
             return False
         else:
-            print("Invalid username, try again")
+            print(f"{bcolors.FAIL}Invalid username. PLease try again{bcolors.ENDC}")
             return False
 
 
@@ -156,8 +157,8 @@ def is_valid_employee_id(id):
             return True
 
         elif int(id) in all_member_ids:
-            print("Employee id already exists, try again")
+            print(f"{bcolors.FAIL}Employee id already exists. PLease try again{bcolors.ENDC}")
             return False
         else:
-            print("Invalid employee id, try again")
+            print(f"{bcolors.FAIL}Invalid employee id. PLease try again{bcolors.ENDC}")
             return False

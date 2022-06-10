@@ -1,6 +1,7 @@
 import utils.database as db
 import utils.value_checks as value_checks
 import secret
+from utils.bcolors import *
 from utils.encryption import encrypt
 
 def get_user_info(role):
@@ -11,7 +12,7 @@ def get_user_info(role):
 
     if role == "advisor":
         if advisors_decrypted == None or len(advisors_decrypted) == 0:
-            print("\nNo advisors found")
+            print(f"\n{bcolors.FAIL}No advisors found{bcolors.ENDC}")
             return
 
         #if advisors were found, print them        
@@ -28,9 +29,9 @@ def get_user_info(role):
                 if advisor_index < len(advisors_decrypted) and advisor_index >= 0:
                     break
             except ValueError:
-                print("\nInvalid input, try again")
+                print(f"\n{bcolors.FAIL}Invalid input, try again{bcolors.ENDC}")
                 continue
-            print("\nInvalid input, try again")
+            print(f"\n{bcolors.FAIL}Invalid input, try again{bcolors.ENDC}")
 
         # selected user is
         selected_user = advisors_decrypted[advisor_index]
@@ -38,7 +39,7 @@ def get_user_info(role):
 
     elif role == "admin":
         if admins_decrypted == None or len(admins_decrypted) == 0:
-            print("\nNo admins found")
+            print(f"\n{bcolors.FAIL}No admins found{bcolors.ENDC}")
             return
 
         #if admins were found, print them
@@ -56,9 +57,9 @@ def get_user_info(role):
                 if admin_index < len(admins_decrypted) and admin_index >= 0:
                     break
             except ValueError:
-                print("\nInvalid input, try again")
+                print(f"\n{bcolors.FAIL}Invalid input, try again{bcolors.ENDC}")
                 continue
-            print("\nInvalid input, try again")
+            print(f"\n{bcolors.FAIL}Invalid input, try again{bcolors.ENDC}")
 
         # selected user is
         selected_user = admins_decrypted[admin_index]
@@ -79,7 +80,7 @@ def update_user_info(role):
     
     choice = input(f"\nEnter a number to edit a member's information: ")
     while choice not in ["1", "2", "3", "4", "5", "6", "7"]:
-        print("\nEnter a valid integer number representing a choice")
+        print(f"\n{bcolors.FAIL}Enter a valid integer number representing a choice{bcolors.ENDC}")
         choice = input(f"\nEnter a number to edit a member's information: ")
    
     # new id
@@ -90,7 +91,7 @@ def update_user_info(role):
         db.update_user(new_employee_id, role, encrypt(selected_user[2], secret.SECRET_KEY), 
         encrypt(selected_user[3], secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), 
         selected_user[6], selected_user[0])
-        print("Employee_id updated")
+        print(f"{bcolors.OKBLUE}Employee_id updated{bcolors.ENDC}\n")
     
 
     # new first name
@@ -101,7 +102,7 @@ def update_user_info(role):
         db.update_user(selected_user[0], role, encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_user[3], 
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY),
         selected_user[6], selected_user[0])
-        print("First name updated")
+        print(f"{bcolors.OKBLUE}First name updated{bcolors.ENDC}\n")
 
     # new last name
     elif choice == "3":
@@ -110,7 +111,7 @@ def update_user_info(role):
             new_last_name = input("Enter new last name: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(new_last_name,
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
-        print("Last name updated")
+        print(f"{bcolors.OKBLUE}Last name updated{bcolors.ENDC}\n")
     
     # new username
     elif choice == "4":
@@ -120,17 +121,17 @@ def update_user_info(role):
             new_username = input("Enter new username: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
-        print("Username updated")
+        print(f"{bcolors.OKBLUE}Username updated{bcolors.ENDC}\n")
     
     # new password
     elif choice == "5":
         new_password = input("Enter new password: ")
         while not value_checks.is_valid_password(new_password):
-            print("Password not following the requirements, try again")
+            print(f"{bcolors.FAIL}Password not following the requirements, try again{bcolors.ENDC}")
             new_password = input("Enter new password: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_user[6], selected_user[0])
-        print("Password updated")
+        print(f"{bcolors.OKBLUE}Password updated{bcolors.ENDC}\n")
     
     # new registration date
     elif choice == "6":
@@ -139,7 +140,7 @@ def update_user_info(role):
             new_registration_date = input("Enter new registration date: ")  
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), new_registration_date, selected_user[0])
-        print("Registration date updated")
+        print(f"{bcolors.OKBLUE}Registration date updated{bcolors.ENDC}\n")
 
     # exit
     elif choice == "7":

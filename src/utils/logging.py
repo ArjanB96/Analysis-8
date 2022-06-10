@@ -5,6 +5,7 @@ from models.user import User
 from utils.encryption import encrypt_log, encrypt
 import globals
 from utils.database import insert_log, connect_db
+from utils.bcolors import *
 
 def log_login(successful = True, unsuccessful_username=""):
     '''
@@ -159,7 +160,7 @@ def check_notifications():
     unread_flagged_logs_count = cursor.execute("SELECT Count(*) FROM LOGS WHERE NOT Read AND Suspicious = ?", (encrypt("Yes", secret.SECRET_KEY),)).fetchone()[0]
 
     if unread_flagged_logs_count > 0:
-        print(f"\nALERT!\nThere are unread suspicious activities.\nAmount of unread suspicious activities:", unread_flagged_logs_count)
+        print(f"\n{bcolors.WARNING}ALERT!\nThere are unread suspicious activities.\nAmount of unread suspicious activities:{bcolors.ENDC}", unread_flagged_logs_count)
         connection.close()
         return True
     return False

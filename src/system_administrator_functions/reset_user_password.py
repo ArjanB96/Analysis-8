@@ -3,6 +3,7 @@ import utils.database as db
 import secret
 from utils.encryption import encrypt
 from utils.random_pass_generator import generate_password
+from utils.bcolors import *
 
 def reset_user_password(role):
     if role == "advisor":
@@ -10,22 +11,22 @@ def reset_user_password(role):
     elif role == "admin":
         selected_user = ua.get_user_info("admin")
     if selected_user != None:
-        print(f"Are you sure you want to reset {selected_user[4]}'s password?")
+        print(f"{bcolors.WARNING}Are you sure you want to reset {selected_user[4]}'s password?{bcolors.ENDC}")
         choice = input("Enter 'y' to reset or 'n' to cancel: ")
         while choice not in ["y", "n"]:
-            print("Enter a valid choice")
+            print(f"{bcolors.FAIL}Enter a valid choice{bcolors.ENDC}")
             choice = input("Enter 'y' to reset or 'n' to cancel: ")
         
         if choice == "y":
             new_password = generate_password()
-            print(f"password is now: {new_password}")
+            print(f"{bcolors.OKBLUE}\npassword is now: {new_password}{bcolors.ENDC}")
             db.reset_user_pass(encrypt(new_password, secret.SECRET_KEY), selected_user[0])
-            print("Password reset")
+            print(f"{bcolors.OKBLUE}Password reset{bcolors.ENDC}\n")
 
         elif choice == "n":
-            print("Canceled")
+            print(f"{bcolors.OKBLUE}\nCanceled{bcolors.ENDC}\n")
 
         else:    
-            print("Invalid choice")
+            print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}\n")
 
 
