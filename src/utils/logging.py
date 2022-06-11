@@ -86,15 +86,15 @@ def log_user(user_option: log_user_options, user_username: str, user_auth_level:
     # If user is created 
     if user_option == log_user_options.CREATION:
         description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been created"
-        additional_info = f"Username: '{user_username}'"
+        additional_info = f"Username: \"{user_username}\""
     # If user is deleted
     elif user_option == log_user_options.DELETION:
         description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been deleted"
-        additional_info = f"'{user_username}' has been deleted"
+        additional_info = f"\"{user_username}\" has been deleted"
     # If user is modified
     elif user_option == log_user_options.MODIFIED:
         description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been modified"
-        additional_info = f"Info of '{user_username}' has been modified: "
+        additional_info = f"Info of \"{user_username}\" has been modified: "
 
         if changed_values == None:
             return
@@ -104,7 +104,7 @@ def log_user(user_option: log_user_options, user_username: str, user_auth_level:
     # If user's password is reset to a temporary password
     else:
         description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} password has been reset"
-        additional_info = f"Passowrd of '{user_username}' has been reset with a temporary password"
+        additional_info = f"Passowrd of \"{user_username}\" has been reset with a temporary password"
     
     # Inserts an encrypted LogEvent object into the database
     insert_log(encrypt_log(LogEvent(username, description, additional_info, "No")))

@@ -31,6 +31,7 @@ def view_users_and_roles(role):
     
     # Logs current activity
     log_view_list_of_users()
+    print()
     
     return users_decrypted
 
