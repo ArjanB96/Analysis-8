@@ -11,9 +11,11 @@ def create_advisor_or_admin(role):
     This function creates an advisor or a system administrator account.
     """
     if role == "advisor":
-        authentication_level = int(encrypt(str(1), secret.SECRET_KEY))
+        auth_level = 1
+        authentication_level_enc = int(encrypt(str(1), secret.SECRET_KEY))
     elif role == "system_administrator":
-        authentication_level = int(encrypt(str(2), secret.SECRET_KEY))
+        auth_level = 2
+        authentication_level_enc = int(encrypt(str(2), secret.SECRET_KEY))
 
     # first name
     first_name = input("Enter first name: ")
@@ -44,10 +46,10 @@ def create_advisor_or_admin(role):
     registration_date = str(datetime.today())
     
     # Encrypting first name, last name, street, house number, zip code, city, email, mobile phone
-    db.insert_advisor(authentication_level, first_name_enc, last_name_enc, username_enc, password_enc, registration_date)
+    db.insert_advisor(authentication_level_enc, first_name_enc, last_name_enc, username_enc, password_enc, registration_date)
 
     # Logs the creation of advisor
-    log_user(log_user_options.CREATION, username, 1)
+    log_user(log_user_options.CREATION, username, auth_level)
 
     print("Advisor registered")
 

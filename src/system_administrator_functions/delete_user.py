@@ -1,6 +1,8 @@
+from models.enums import log_user_options
 from system_administrator_functions import update_user_info as ua
 import utils.database as db
 from utils.bcolors import *
+from utils.logging import log_user
 
 def delete_user(role):
     if role == "advisor":
@@ -18,8 +20,14 @@ def delete_user(role):
         if choice == "y":
             db.delete_user(selected_user[0])
             if role == "advisor":
+                # Logs current activity
+                log_user(log_user_options.DELETION, selected_user[4], selected_user[1])
+
                 print(f"{bcolors.OKBLUE}Advisor deleted{bcolors.ENDC}")
             elif role == "admin":
+                # Logs current activity
+                log_user(log_user_options.DELETION, selected_user[4], selected_user[1])
+                
                 print(f"{bcolors.OKBLUE}Admin deleted{bcolors.ENDC}")
 
         elif choice == "n":

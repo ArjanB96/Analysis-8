@@ -37,6 +37,7 @@ def update_password():
 
     # Password to put in database is encrypted
     db.update_password(encrypt(globals.current_user.username, secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY))
+    
     # Logs the password change
     log_password_change(new_password)
 

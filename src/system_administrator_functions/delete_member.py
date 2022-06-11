@@ -1,15 +1,11 @@
 from advisor_functions.search_member_information import search_member_information
-import globals
-from utils.encryption import encrypt
-import utils.value_checks as value_checks
-import secret
+from models.enums import log_user_options
 import utils.database as db
 from advisor_functions import search_member_information
-from advisor_functions.register_member import choose_city
 from utils.bcolors import *
+from utils.logging import log_member
 
 def delete_member():
-
 
     list_of_members = search_member_information.search_member_information()
 
@@ -42,6 +38,10 @@ def delete_member():
 
         if choice == "y":
             db.delete_member(member[0])
+
+            # Logs current activity
+            log_member(log_user_options.DELETION)
+
             print(f"{bcolors.OKBLUE}Member deleted{bcolors.ENDC}")
 
         elif choice == "n":
