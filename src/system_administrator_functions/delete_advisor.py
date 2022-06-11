@@ -1,4 +1,4 @@
-from models.enums import log_backup_options, log_user_options
+from models.enums import log_user_options
 from system_administrator_functions import update_advisor_info as ua
 from utils.logging import log_user
 import utils.database as db

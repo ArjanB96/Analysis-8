@@ -1,6 +1,5 @@
-from models.enums import authentication_level, log_user_options
+from models.enums import log_user_options
 from datetime import datetime
-from models.user import User
 import utils.database as db
 from utils.encryption import encrypt
 import utils.value_checks as value_checks, secret

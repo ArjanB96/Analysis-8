@@ -1,4 +1,3 @@
-from msilib.schema import Error
 from zipfile import ZipFile
 from utils.logging import log_backup
 from models.enums import log_backup_options

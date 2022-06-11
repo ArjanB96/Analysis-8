@@ -1,4 +1,4 @@
-from models.enums import log_backup_options, log_lookup_options
+from models.enums import log_lookup_options
 import utils.database as db
 from utils.logging import log_lookup
 

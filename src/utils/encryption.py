@@ -1,7 +1,3 @@
-from cmath import log
-import datetime
-import re
-from unittest import result
 from models.log_event import LogEvent
 import secret
 
