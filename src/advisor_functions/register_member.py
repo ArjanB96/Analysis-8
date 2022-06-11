@@ -5,6 +5,7 @@ from utils.encryption import encrypt
 import utils.database as db
 from utils.checksum import generate_checksum_id
 from utils.logging import log_member
+from utils.bcolors import *
 
 def register_member():
     
@@ -65,7 +66,7 @@ def register_member():
     # Logs the member creation
     log_member(log_user_options.CREATION)
 
-    print("Member registered")
+    print(f"{bcolors.OKBLUE}\nMember registered{bcolors.ENDC}\n")
 
 def choose_city():
         print("\nChoose your city:\n")
@@ -76,7 +77,7 @@ def choose_city():
             i += 1
         city = input("\nEnter the number of your city: ")
         while not value_checks.is_valid_city(city):
-            city = input("Enter the number of your city: ")
+            city = input(f"{bcolors.FAIL}Enter the number of your city: {bcolors.ENDC}")
         print(city)
         city = encrypt(list_of_cities[int(city)-1], secret.SECRET_KEY)
         return city

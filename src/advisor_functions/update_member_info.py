@@ -7,6 +7,7 @@ import utils.database as db
 from advisor_functions import search_member_information
 from advisor_functions.register_member import choose_city
 from utils.logging import log_member
+from utils.bcolors import *
 
 def update_member_info():
 
@@ -23,13 +24,13 @@ def update_member_info():
         try:
             key = int(key)
         except ValueError:
-            print("Incorrect input. Please try again")
+            print(f"{bcolors.FAIL}Incorrect input. Please try again{bcolors.ENDC}\n")
             return
 
         # if they key is in the range of list_of members
         while key not in range(len(list_of_members)):
             print("\nEnter a valid integer number representing a user")
-            key = int(input("\nEnter a number to select a member: "))
+            key = int(input(f"{bcolors.FAIL}\nEnter a number to select a member: {bcolors.ENDC}"))
         
         member = list_of_members[key]
 
@@ -38,7 +39,7 @@ def update_member_info():
         print_update_info()
         choice = input(f"\nEnter a number to edit a member's information: ")
         while choice not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]:
-            print("\nEnter a valid integer number representing a choice")
+            print(f"{bcolors.FAIL}\nEnter a valid integer number representing a choice{bcolors.ENDC}")
             choice = input(f"\nEnter a number to edit a member's information: ")
         
         # new member id
@@ -53,7 +54,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Member_Id": new_member_id})
 
-            print("Member_id updated")
+            print(f"{bcolors.OKBLUE}Member_id updated{bcolors.ENDC}\n")
         
         # new first name
         elif choice == "2":
@@ -67,13 +68,13 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"First_Name": new_first_name})
 
-            print("First_name updated")
+            print(f"{bcolors.OKBLUE}First_name updated{bcolors.ENDC}\n")
         
         # new last name
         elif choice == "3":
             new_last_name = input("Enter new last_name: ")
             while not value_checks.is_valid_name(new_last_name):
-                new_last_name = input("Enter new last_name: ")
+                new_last_name = input(f"Enter new last_name: ")
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(new_last_name, secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY),encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
@@ -81,7 +82,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Last_Name": new_last_name})
 
-            print("Last_name updated")
+            print(f"{bcolors.OKBLUE}Last_name updated{bcolors.ENDC}\n")
         
         # new street
         elif choice == "4":
@@ -95,7 +96,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Street": new_street})
 
-            print("Street updated")
+            print(f"{bcolors.OKBLUE}Street updated{bcolors.ENDC}\n")
 
         # new house number    
         elif choice == "5":
@@ -109,7 +110,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"House_Number": new_house_number})
 
-            print("House_number updated")
+            print(f"{bcolors.OKBLUE}House_number updated{bcolors.ENDC}\n")
         
         # new zip code
         elif choice == "6":
@@ -123,7 +124,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Zip_Code": new_zip_code})
 
-            print("Zip_code updated")
+            print(f"{bcolors.OKBLUE}Zip_code updated{bcolors.ENDC}\n")
 
         # new city
         elif choice == "7":
@@ -135,7 +136,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"City": new_city})
 
-            print("City updated")
+            print(f"{bcolors.OKBLUE}City updated{bcolors.ENDC}\n")
 
         # new email 
         elif choice == "8":
@@ -149,7 +150,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Email": new_email})
 
-            print("Email updated")
+            print(f"{bcolors.OKBLUE}Email updated{bcolors.ENDC}\n")
 
         # new phone number
         elif choice == "9":
@@ -163,7 +164,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Phone_Number": new_phone_number})
 
-            print("Phone_number updated")
+            print(f"{bcolors.OKBLUE}Phone_number updated{bcolors.ENDC}\n")
 
         # new registration date
         elif choice == "10":
@@ -178,6 +179,8 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Registration_Date": new_registration_date})
 
+            print(f"{bcolors.OKBLUE}Registration date updated{bcolors.ENDC}\n")
+            
         elif choice == "11":
             return
             

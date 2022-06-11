@@ -1,6 +1,7 @@
 from zipfile import ZipFile
 from utils.logging import log_backup
 from models.enums import log_backup_options
+from utils.bcolors import *
 
 def show_options():
     print("\nPress 1 to create a backup")
@@ -25,7 +26,7 @@ def show_options():
             return
 
         else: 
-            print("Incorrect input, please try again")
+            print(f"{bcolors.FAIL}Incorrect input, please try again{bcolors.ENDC}\n")
             continue
 
 def create_backup():
@@ -37,7 +38,7 @@ def create_backup():
     # Logs the backup creation
     log_backup(log_backup_options.CREATION)
 
-    print("Backup has been successfully made")
+    print(f"{bcolors.OKBLUE}Backup has been successfully made{bcolors.ENDC}")
 
 def restore_backup():
     try:
@@ -48,7 +49,7 @@ def restore_backup():
         # Logs the backup restoration
         log_backup(log_backup_options.RESTORATION)
 
-        print("Backup has been successfully restored")
+        print(f"{bcolors.OKBLUE}Backup has been successfully restored{bcolors.ENDC}")
 
     except Exception as exc:
-        print(f"Restoring from backup failed.\nError: {exc}")
+        print(f"{bcolors.FAIL}Restoring from backup failed.\nError: {exc}{bcolors.ENDC}")

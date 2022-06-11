@@ -3,7 +3,10 @@ from advisor_functions.register_member import *
 from advisor_functions.update_password import *
 from system_administrator_functions import * 
 from advisor_functions import update_member_info, search_member_information
-from system_administrator_functions import view_users_and_roles, create_advisor, update_advisor_info, delete_advisor, reset_advisor_password, backup, view_logs
+from system_administrator_functions import view_users_and_roles, update_user_info, reset_user_password, backup, view_logs
+from system_administrator_functions import create_advisor_or_admin, delete_member
+import globals
+from system_administrator_functions import delete_user
 
 '''
 Authentication_Level: 0 = member
@@ -33,11 +36,10 @@ options_dict = {
 }
 
 def print_incorrect_input():
-    print("Incorrect input. Please try again")
+    print(f"{bcolors.FAIL}Incorrect input. Please try again{bcolors.ENDC}\n")
 
 def show_options(auth_level):
     '''Shows all the options with the given authentication_level'''
-    print("")
     for key, value in options_dict.items():
         if (auth_level.value >= value):
             print(key)
@@ -82,27 +84,27 @@ def read_options(auth_level):
 
         # View list of users and their roles
         elif user_input == "5":
-            view_users_and_roles.view_users_and_roles()
+            view_users_and_roles.view_users_and_roles("all")
             continue
         
         # Define and add new advisor
         elif user_input == "6":
-            create_advisor.create_advisor()
+            create_advisor_or_admin.create_advisor_or_admin("advisor")
             continue
         
         # Modify / update advisor's account and profile
         elif user_input == "7":
-            update_advisor_info.update_advisor_info()
+            update_user_info.update_user_info("advisor")
             continue
         
         # Delete an advisor's account
         elif user_input == "8":
-            delete_advisor.delete_advisor()
+            delete_user.delete_user("advisor")
             continue
 
         # Reset advisor's password (a temporary password)
         elif user_input == "9":
-            reset_advisor_password.reset_advisor_password()
+            reset_user_password.reset_user_password("advisor")
             continue
         
         # Make backup of the system and restore
@@ -117,6 +119,7 @@ def read_options(auth_level):
         
         # Delete member 
         elif user_input == "12":
+            delete_member.delete_member()
             continue
         
         ### Super administrator options
@@ -127,18 +130,22 @@ def read_options(auth_level):
 
         # Define and add new administrator 
         elif user_input == "13":
+            create_advisor_or_admin.create_advisor_or_admin("system_administrator")
             continue
         
         # Modify / update administrator's account and profile
         elif user_input == "14":
+            update_user_info.update_user_info("admin")
             continue
         
-        # Delelete administrator
+        # Delete administrator
         elif user_input == "15":
+            delete_user.delete_user("admin")
             continue
         
         # Reset administrator's password (a temporary password)
         elif user_input == "16":
+            reset_user_password.reset_user_password("admin")
             continue
 
         # Incorrect input

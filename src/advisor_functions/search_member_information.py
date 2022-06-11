@@ -1,13 +1,14 @@
 from models.enums import log_lookup_options
 import utils.database as db
 from utils.logging import log_lookup
+from utils.bcolors import *
 
 def search_member_information():
 
     members_decrypted = db.show_all_members()
 
     if len(members_decrypted) == 0:
-        print("\nNo members found\n")
+        print(f"{bcolors.FAIL}\nNo members found\n{bcolors.ENDC}")
         return
 
     else:
@@ -27,7 +28,7 @@ def search_member_information():
 
         # if no members were found, print that no members were found
         if len(found_members) == 0:
-            print("No members were found")
+            print(f"{bcolors.FAIL}No members were found{bcolors.ENDC}")
             return
 
         #if members were found, print them        

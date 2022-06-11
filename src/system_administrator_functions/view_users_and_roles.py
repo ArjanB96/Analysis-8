@@ -1,12 +1,13 @@
 import utils.database as db
 from utils.logging import log_view_list_of_users
+from utils.bcolors import *
 
-def view_users_and_roles():
+def view_users_and_roles(role):
 
-    users_decrypted = db.view_users_and_roles()
+    users_decrypted = db.view_users_and_roles("all")
 
     if len(users_decrypted) == 0:
-        print("\nNo users found\n")
+        print(f"\n{bcolors.FAIL}No users found\n{bcolors.ENDC}")
         return
 
     print("Following user(s) were found: \n")

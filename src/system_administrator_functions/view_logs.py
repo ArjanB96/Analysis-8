@@ -3,6 +3,7 @@ from utils.encryption import decrypt_log_from_tuple
 from utils.logging import check_notifications, log_log_view
 from utils.encryption import encrypt
 import secret
+from utils.bcolors import *
 
 def view_all_logs():
     # Logs current activity
@@ -59,7 +60,7 @@ def view_log_options():
             elif user_input == "3":
                 return
             else:
-                print("Incorrect input, please try again")
+                print(f"{bcolors.FAIL}Incorrect input, please try again{bcolors.ENDC}\n")
                 continue
     else:
         view_all_logs()
