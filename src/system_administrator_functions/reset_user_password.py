@@ -1,9 +1,11 @@
+from models.enums import log_user_options
 from system_administrator_functions import update_user_info as ua
 import utils.database as db
 import secret
 from utils.encryption import encrypt
 from utils.random_pass_generator import generate_password
 from utils.bcolors import *
+from utils.logging import log_user
 
 def reset_user_password(role):
     if role == "advisor":
@@ -21,6 +23,10 @@ def reset_user_password(role):
             new_password = generate_password()
             print(f"{bcolors.OKBLUE}\npassword is now: {new_password}{bcolors.ENDC}")
             db.reset_user_pass(encrypt(new_password, secret.SECRET_KEY), selected_user[0])
+
+            # Logs current activity
+            log_user(log_user_options.PASSWORD_RESET, selected_user[4], selected_user[1])
+            
             print(f"{bcolors.OKBLUE}Password reset{bcolors.ENDC}\n")
 
         elif choice == "n":
@@ -28,5 +34,3 @@ def reset_user_password(role):
 
         else:    
             print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}\n")
-
-

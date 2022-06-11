@@ -70,3 +70,6 @@ def print_logs(list_of_logs: list):
     print('Log Id', 'Username', 'Date', 'Time', 'Description of Activity', 'Additional Information', 'Suspicious', sep=" | ")
     for decr_log_tuple in list_of_logs:
         print(decr_log_tuple[0], decr_log_tuple[1], decr_log_tuple[2], decr_log_tuple[3], decr_log_tuple[4], decr_log_tuple[5], decr_log_tuple[6], sep=" | ")
+    
+    # To create a new line
+    print("")

@@ -2,6 +2,7 @@ import globals
 from utils.encryption import encrypt
 import utils.value_checks as value_checks, secret
 import utils.database as db
+from utils.logging import log_password_change
 from utils.bcolors import *
 
 def update_password():
@@ -36,6 +37,9 @@ def update_password():
 
     # Password to put in database is encrypted
     db.update_password(encrypt(globals.current_user.username, secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY))
+    
+    # Logs the password change
+    log_password_change(new_password)
 
     print(f"{bcolors.OKBLUE}\nPassword updated{bcolors.ENDC}\n")
     return

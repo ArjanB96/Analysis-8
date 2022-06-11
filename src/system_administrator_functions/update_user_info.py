@@ -3,6 +3,8 @@ import utils.value_checks as value_checks
 import secret
 from utils.bcolors import *
 from utils.encryption import encrypt
+from utils.logging import log_user
+from models.enums import log_user_options
 
 def get_user_info(role):
 
@@ -91,6 +93,10 @@ def update_user_info(role):
         db.update_user(new_employee_id, role, encrypt(selected_user[2], secret.SECRET_KEY), 
         encrypt(selected_user[3], secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), 
         selected_user[6], selected_user[0])
+
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Employee_Id": new_employee_id})
+
         print(f"{bcolors.OKBLUE}Employee_id updated{bcolors.ENDC}\n")
     
 
@@ -102,6 +108,10 @@ def update_user_info(role):
         db.update_user(selected_user[0], role, encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_user[3], 
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY),
         selected_user[6], selected_user[0])
+
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"First_Name": new_first_name})
+
         print(f"{bcolors.OKBLUE}First name updated{bcolors.ENDC}\n")
 
     # new last name
@@ -111,6 +121,10 @@ def update_user_info(role):
             new_last_name = input("Enter new last name: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(new_last_name,
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
+        
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Last_Name": new_last_name})
+
         print(f"{bcolors.OKBLUE}Last name updated{bcolors.ENDC}\n")
     
     # new username
@@ -121,6 +135,10 @@ def update_user_info(role):
             new_username = input("Enter new username: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), selected_user[6], selected_user[0])
+        
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Username": new_username})
+
         print(f"{bcolors.OKBLUE}Username updated{bcolors.ENDC}\n")
     
     # new password
@@ -131,6 +149,10 @@ def update_user_info(role):
             new_password = input("Enter new password: ")
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_user[6], selected_user[0])
+        
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Password": new_password})
+
         print(f"{bcolors.OKBLUE}Password updated{bcolors.ENDC}\n")
     
     # new registration date
@@ -140,6 +162,10 @@ def update_user_info(role):
             new_registration_date = input("Enter new registration date: ")  
         db.update_user(selected_user[0], role, encrypt(selected_user[2], secret.SECRET_KEY), encrypt(selected_user[3],
         secret.SECRET_KEY), encrypt(selected_user[4], secret.SECRET_KEY), encrypt(selected_user[5], secret.SECRET_KEY), new_registration_date, selected_user[0])
+        
+        # Logs current activity
+        log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Registration_Date": new_registration_date})
+
         print(f"{bcolors.OKBLUE}Registration date updated{bcolors.ENDC}\n")
 
     # exit
