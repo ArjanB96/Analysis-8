@@ -1,7 +1,6 @@
-import globals
-from utils.encryption import encrypt
-import utils.value_checks as value_checks, secret
+from models.enums import log_backup_options, log_lookup_options
 import utils.database as db
+from utils.logging import log_lookup
 
 def search_member_information():
 
@@ -14,6 +13,9 @@ def search_member_information():
     else:
         # search for a member with a keyword, e.g. first name, last name, email, etc.
         keyword = input("Enter a keyword to search for: ").lower()
+
+        # Logs current activity
+        log_lookup(log_lookup_options.MEMBER, keyword)
 
         # if keyword matches with any of the members_decrypted, put that member in a list
         i = 0

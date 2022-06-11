@@ -1,14 +1,14 @@
 from advisor_functions.search_member_information import search_member_information
-import globals
+from models.enums import log_user_options
 from utils.encryption import encrypt
 import utils.value_checks as value_checks
 import secret
 import utils.database as db
 from advisor_functions import search_member_information
 from advisor_functions.register_member import choose_city
+from utils.logging import log_member
 
 def update_member_info():
-
 
     list_of_members = search_member_information.search_member_information()
 
@@ -49,6 +49,10 @@ def update_member_info():
             db.update_member(new_member_id, encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY),encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Member_Id": new_member_id})
+
             print("Member_id updated")
         
         # new first name
@@ -59,6 +63,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(new_first_name, secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY),encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"First_Name": new_first_name})
+
             print("First_name updated")
         
         # new last name
@@ -69,6 +77,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(new_last_name, secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY),encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Last_Name": new_last_name})
+
             print("Last_name updated")
         
         # new street
@@ -79,6 +91,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(new_street, secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY),encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Street": new_street})
+
             print("Street updated")
 
         # new house number    
@@ -89,6 +105,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(new_house_number), secret.SECRET_KEY), encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+            
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"House_Number": new_house_number})
+
             print("House_number updated")
         
         # new zip code
@@ -99,6 +119,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY), encrypt(new_zip_code, secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Zip_Code": new_zip_code})
+
             print("Zip_code updated")
 
         # new city
@@ -107,6 +131,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY), encrypt(member[5], secret.SECRET_KEY), new_city, encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"City": new_city})
+
             print("City updated")
 
         # new email 
@@ -117,6 +145,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY), encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(new_email, secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Email": new_email})
+
             print("Email updated")
 
         # new phone number
@@ -127,6 +159,10 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY), encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(new_phone_number), secret.SECRET_KEY), member[9], member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Phone_Number": new_phone_number})
+
             print("Phone_number updated")
 
         # new registration date
@@ -138,6 +174,9 @@ def update_member_info():
             db.update_member(member[0], encrypt(member[1], secret.SECRET_KEY), encrypt(member[2], secret.SECRET_KEY), encrypt(member[3], secret.SECRET_KEY), 
             encrypt(str(member[4]), secret.SECRET_KEY), encrypt(member[5], secret.SECRET_KEY), encrypt(member[6], secret.SECRET_KEY), encrypt(member[7], secret.SECRET_KEY), 
             encrypt(str(member[8]), secret.SECRET_KEY), new_registration_date, member[0])
+
+            # Logs the activity 
+            log_member(log_user_options.MODIFIED, {"Registration_Date": new_registration_date})
 
         elif choice == "11":
             return

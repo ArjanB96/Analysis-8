@@ -1,8 +1,10 @@
 from datetime import datetime
+from models.enums import log_user_options
 import utils.value_checks as value_checks, secret
 from utils.encryption import encrypt
 import utils.database as db
 from utils.checksum import generate_checksum_id
+from utils.logging import log_member
 
 def register_member():
     
@@ -59,6 +61,10 @@ def register_member():
 
     # Encrypting first name, last name, street, house number, zip code, city, email, mobile phone
     db.insert_member(checksum_id, first_name_enc, last_name_enc, street_enc, house_number_enc, zip_code_enc, city, email_enc, mobile_phone_enc, registration_date)
+
+    # Logs the member creation
+    log_member(log_user_options.CREATION)
+
     print("Member registered")
 
 def choose_city():

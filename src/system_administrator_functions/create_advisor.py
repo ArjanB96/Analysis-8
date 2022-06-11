@@ -1,8 +1,10 @@
-from models.enums import authentication_level
+from models.enums import authentication_level, log_user_options
 from datetime import datetime
+from models.user import User
 import utils.database as db
 from utils.encryption import encrypt
 import utils.value_checks as value_checks, secret
+from utils.logging import log_user
 
 def create_advisor():
     """
@@ -41,5 +43,9 @@ def create_advisor():
 
     # Encrypting first name, last name, street, house number, zip code, city, email, mobile phone
     db.insert_advisor(authentication_level, first_name_enc, last_name_enc, username_enc, password_enc, registration_date)
+
+    # Logs the creation of advisor
+    log_user(log_user_options.CREATION, username, 1)
+
     print("Advisor registered")
 

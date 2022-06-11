@@ -1,4 +1,6 @@
+from models.enums import log_backup_options, log_user_options
 from system_administrator_functions import update_advisor_info as ua
+from utils.logging import log_user
 import utils.database as db
 
 def delete_advisor():
@@ -17,6 +19,10 @@ def delete_advisor():
             print("You cannot delete an administrator or higher")
         elif selected_advisor[1] == 1:
             db.delete_advisor(selected_advisor[0])
+
+            # Logs the advisor's deletion
+            log_user(log_user_options.DELETION, selected_advisor[4], selected_advisor[1])
+
             print("Advisor deleted")
 
     elif choice == "n":

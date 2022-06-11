@@ -1,7 +1,6 @@
 import secret
 from models.enums import log_user_options, log_backup_options, log_lookup_options
 from models.log_event import LogEvent
-from models.user import User
 from utils.encryption import encrypt_log, encrypt
 import globals
 from utils.database import insert_log, connect_db
@@ -72,7 +71,7 @@ def log_member(user_option: log_user_options, changed_values: dict = None):
         # Inserts an encrypted LogEvent object into the database
         insert_log(encrypt_log(LogEvent(username, description, additional_info, "No")))
 
-def log_user(user_option: log_user_options, user: User, changed_values: dict = None):
+def log_user(user_option: log_user_options, user_username: str, user_auth_level: int,changed_values: dict = None):
     '''
     Logs any user changes such as creating, modifying or deleting a advisor or system administrator\n
     NOTE: when log_user_options.MODIFIED is used, changed_values should be the dictionary with the newly changed values:\n
@@ -85,16 +84,16 @@ def log_user(user_option: log_user_options, user: User, changed_values: dict = N
     
     # If user is created 
     if user_option == log_user_options.CREATION:
-        description = f"{'Advisor' if user.authentication_level == 1 else 'System Administrator'} account has been created"
-        additional_info = f"Username: '{user.username}'"
+        description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been created"
+        additional_info = f"Username: '{user_username}'"
     # If user is deleted
     elif user_option == log_user_options.DELETION:
-        description = f"{'Advisor' if user.authentication_level == 1 else 'System Administrator'} account has been deleted"
-        additional_info = f"'{user.username}' has been deleted"
+        description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been deleted"
+        additional_info = f"'{user_username}' has been deleted"
     # If user is modified
     elif user_option == log_user_options.MODIFIED:
-        description = f"{'Advisor' if user.authentication_level == 1 else 'System Administrator'} account has been modified"
-        additional_info = f"Info of '{user.username}' has been modified: "
+        description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} account has been modified"
+        additional_info = f"Info of '{user_username}' has been modified: "
 
         if changed_values == None:
             return
@@ -103,8 +102,8 @@ def log_user(user_option: log_user_options, user: User, changed_values: dict = N
             additional_info += f"{key} to {str(value)}. "
     # If user's password is reset to a temporary password
     else:
-        description = f"{'Advisor' if user.authentication_level == 1 else 'System Administrator'} password has been reset"
-        additional_info = f"Passowrd of '{user.username}' has been reset with a temporary password"
+        description = f"{'Advisor' if user_auth_level == 1 else 'System Administrator'} password has been reset"
+        additional_info = f"Passowrd of '{user_username}' has been reset with a temporary password"
     
     # Inserts an encrypted LogEvent object into the database
     insert_log(encrypt_log(LogEvent(username, description, additional_info, "No")))
@@ -141,6 +140,23 @@ def log_log_view(suspicious_viewed = False):
     '''
     username = globals.current_user.username
     description = f"{'Suspicious' if suspicious_viewed else ''} Log file(s) viewed"
+    insert_log(encrypt_log(LogEvent(username, description, "", "No")))
+
+def log_password_change(new_password: str):
+    '''
+    Logs the change of the password of the current user
+    '''
+    username = globals.current_user.username
+    description = f"Changed their own password"
+    additional_info = f"Password changed into: {new_password}"
+    insert_log(encrypt_log(LogEvent(username, description, additional_info, "No")))
+
+def log_view_list_of_users():
+    '''
+    Logs the view of the list of users and their roles activity
+    '''
+    username = globals.current_user.username
+    description = "Viewed users and their role(s)"
     insert_log(encrypt_log(LogEvent(username, description, "", "No")))
 
 def check_notifications():

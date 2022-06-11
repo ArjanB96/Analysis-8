@@ -1,4 +1,6 @@
+from models.enums import log_user_options
 import utils.database as db
+from utils.logging import log_user
 import utils.value_checks as value_checks
 import secret
 from utils.encryption import encrypt
@@ -52,6 +54,10 @@ def update_advisor_info():
         db.update_advisor(new_employee_id, encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), 
         encrypt(selected_advisor[3], secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), 
         selected_advisor[6], selected_advisor[0])
+
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"Employee_Id": new_employee_id})
+
         print("Employee_id updated")
     
     # new first name
@@ -62,6 +68,10 @@ def update_advisor_info():
         db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(new_first_name, secret.SECRET_KEY), encrypt(selected_advisor[3], 
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY),
         selected_advisor[6], selected_advisor[0])
+
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"First_Name": new_first_name})
+
         print("First name updated")
 
     # new last name
@@ -71,6 +81,10 @@ def update_advisor_info():
             new_last_name = input("Enter new last name: ")
         db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(new_last_name,
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"Last_Name": new_last_name})
+
         print("Last name updated")
     
     # new username
@@ -80,6 +94,10 @@ def update_advisor_info():
             new_username = input("Enter new username: ")
         db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(new_username, secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"Username": new_username})
+
         print("Username updated")
     
     # new password
@@ -90,6 +108,10 @@ def update_advisor_info():
             new_password = input("Enter new password: ")
         db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(new_password, secret.SECRET_KEY), selected_advisor[6], selected_advisor[0])
+        
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"Password": {new_password}})
+
         print("Password updated")
     
     # new registration date
@@ -99,6 +121,10 @@ def update_advisor_info():
             new_registration_date = input("Enter new registration date: ")  
         db.update_advisor(selected_advisor[0], encrypt(str(selected_advisor[1]), secret.SECRET_KEY), encrypt(selected_advisor[2], secret.SECRET_KEY), encrypt(selected_advisor[3],
         secret.SECRET_KEY), encrypt(selected_advisor[4], secret.SECRET_KEY), encrypt(selected_advisor[5], secret.SECRET_KEY), new_registration_date, selected_advisor[0])
+        
+        # Logs the modification
+        log_user(log_user_options.MODIFIED, selected_advisor[4], selected_advisor[1], {"Registration_Date": {new_registration_date}})
+
         print("Registration date updated")
 
     # exit
