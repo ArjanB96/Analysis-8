@@ -20,9 +20,10 @@ def login():
     password = encrypt(input("Enter password: "), secret.SECRET_KEY )
     try:
         check_username_and_password = cursor.execute(
-            'SELECT * FROM EMPLOYEE WHERE Username = ? AND Password = ?', (username_enc, password,))
+            'SELECT * FROM EMPLOYEE WHERE Username = ? COLLATE NOCASE AND Password = ?', (username_enc, password,))
         user_tuple = check_username_and_password.fetchone()
         connection.close()
+
         if user_tuple is not None:
             globals.current_user = User(decrypt_employee(user_tuple))
 
