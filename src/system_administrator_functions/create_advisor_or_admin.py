@@ -32,13 +32,14 @@ def create_advisor_or_admin(role):
     # username
     username = input("Enter username: ")
     while not value_checks.is_valid_username(username):
+        print(f"{bcolors.FAIL}Username length must be at least 6 characters long and at most 10 characters long.\nUsername must start with a letter.\nThe username may contain letters, numbers, underscores, apostrophes and periods.{bcolors.ENDC}")
         username = input(f"{bcolors.FAIL}Enter username: {bcolors.ENDC}")
     username_enc = encrypt(username, secret.SECRET_KEY)
     
     # password
     password = input("Enter password: ")
     while not value_checks.is_valid_password(password):
-        print(f"{bcolors.FAIL}Password not following the requirements, try again{bcolors.ENDC}")
+        print(f"{bcolors.FAIL}Password must be at least 8 characters long and at most 30 characters long.\nThe password may contain letters, numbers and special characters.\nThe password must have a combination of at least one lowercase letter, uppercase letter, one digit and one special character.{bcolors.ENDC}")
         password = input(f"{bcolors.FAIL}Enter password: {bcolors.ENDC}")
     password_enc = encrypt(password, secret.SECRET_KEY)
     
