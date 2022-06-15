@@ -8,7 +8,8 @@ from utils.bcolors import *
 import globals
 
 while True:
-    #database.create_database()             #<- creates database if it's your first time running the program
+    # creates database if it's your first time running the program and inserts the superadmin if it is not in the database
+    database.create_database() 
     
     if (login()):
         #check authentication_level in global current_user
