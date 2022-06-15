@@ -5,7 +5,7 @@ import secret
 Encryption & Decryption
 '''
 
-special_characters = ['!','@','#','$','%','^','&','*','(',')','_','+','=','-','{','}','[',']','|',':',';','"','<','>',',','.','?','/','~','`',' ', '\'']
+special_characters = ['!','@','#','$','%','^','&','*','(',')','_','+','=','-','{','}','[',']','|',':',';','"','<','>',',','.','?','/','~','`',"'",' ']
 
 def encrypt(text,s):
     result = ""
@@ -15,7 +15,7 @@ def encrypt(text,s):
 
         # if char is in special_characters, shift in the list of special characters
         if char in special_characters:
-            result += special_characters[(special_characters.index(char) + s) % 32]
+            result += special_characters[(special_characters.index(char) + s) % len(special_characters)]
   
         # Encrypt digits
         elif (char.isdigit()):
@@ -39,7 +39,7 @@ def decrypt(text,s):
 
         # if char is in special_characters, shift in the list of special characters
         if char in special_characters:
-            result += special_characters[(special_characters.index(char) - s) % 31]
+            result += special_characters[(special_characters.index(char) - s) % len(special_characters)]
 
         # Decrypt digits
         elif (char.isdigit()):
