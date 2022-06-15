@@ -61,13 +61,14 @@ def create_database():
         );"""
     cursor.execute(table_logs)
 
-    # Inserts hardcoded Superadmin with username: superadmin and password: Admin321!
+    # Inserts hardcoded Superadmin, if it doesn't exist yet, with username: superadmin and password: Admin321!
     super_admin_tuple_enc = encrypt_employee((1, authentication_level.SUPER_ADMINISTRATOR.value, "Super", "Administrator", "superadmin", "Admin321!", datetime.today(), False))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6], False))
-    administator_tuple_enc = encrypt_employee((2, authentication_level.SYSTEM_ADMINISTRATOR.value, "Arjan", "Belder", "admin", "admin", datetime.today(), False))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (administator_tuple_enc[0], administator_tuple_enc[1], administator_tuple_enc[2], administator_tuple_enc[3], administator_tuple_enc[4], administator_tuple_enc[5], administator_tuple_enc[6], False))
-    advisor_tuple_enc = encrypt_employee((3, authentication_level.ADVISOR.value, "Arjan", "B", "Advisor_Arjan", "Wachtwoord123", datetime.today(), False))
-    cursor.execute("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?, ?, ?, ?, ?)", (advisor_tuple_enc[0], advisor_tuple_enc[1], advisor_tuple_enc[2], advisor_tuple_enc[3], advisor_tuple_enc[4], advisor_tuple_enc[5], advisor_tuple_enc[6], False))
+    cursor.execute("""
+        INSERT INTO EMPLOYEE(Employee_Id, Authentication_Level, First_Name, Last_Name, Username, Password, Registration_Date, Changed_Pass) 
+        SELECT ?, ?, ?, ?, ?, ?, ?, ?
+        WHERE NOT EXISTS(SELECT 1 FROM EMPLOYEE WHERE Employee_Id = 1);""", 
+        (super_admin_tuple_enc[0], super_admin_tuple_enc[1], super_admin_tuple_enc[2], super_admin_tuple_enc[3], super_admin_tuple_enc[4], super_admin_tuple_enc[5], super_admin_tuple_enc[6], False))
+    
     commit_and_close(connection)
 
 # function to enter input in database
