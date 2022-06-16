@@ -31,10 +31,15 @@ def show_options():
 
 def create_backup():
     # Creates the backup.zip file if it doesn't exist yet, and if it exists, overwrites everything that's in the zip
-    with ZipFile('backup.zip', 'w') as backup_zip:
-        # Adds the database to the backup zip
-        backup_zip.write('pythonsqlite.db')
-    
+    try:
+        with ZipFile('data/backup.zip', 'w') as backup_zip:
+            # Adds the database to the backup zip
+            backup_zip.write('data/pythonsqlite.db')
+    except:
+        with ZipFile('../data/backup.zip', 'w') as backup_zip:
+            # Adds the database to the backup zip
+            backup_zip.write('../data/pythonsqlite.db')
+            
     # Logs the backup creation
     log_backup(log_backup_options.CREATION)
 
@@ -43,7 +48,7 @@ def create_backup():
 def restore_backup():
     try:
         # Extracts the database file and overwrites it
-        with ZipFile('backup.zip', 'r') as backup_zip:
+        with ZipFile('data/ackup.zip', 'r') as backup_zip:
             backup_zip.extractall()
 
         # Logs the backup restoration

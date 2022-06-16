@@ -183,8 +183,10 @@ def insert_log(log_event: LogEvent):
 
 def connect_db() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
     # Connecting to sqlite
-    connection = sqlite3.connect('pythonsqlite.db')
-
+    try: # If run from vscode it will check in the root folder
+        connection = sqlite3.connect("data/pythonsqlite.db")
+    except: # Gives an exception when run from cmd, not yet in root folder, thus needs to go to root first
+        connection = sqlite3.connect("../data/pythonsqlite.db")
     # cursor 
     cursor = connection.cursor()
     return connection, cursor
