@@ -129,5 +129,5 @@ dmypy.json
 .pyre/
 
 # database
-data/pythonsqlite.db
+#data/pythonsqlite.db
 data/backup.zip
