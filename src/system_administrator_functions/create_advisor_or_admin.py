@@ -52,8 +52,6 @@ def create_advisor_or_admin(role):
     # Logs the creation of advisor
     log_user(log_user_options.CREATION, username, auth_level)
 
-    print("Advisor registered")
-
     if role == "advisor":
         print(f"{bcolors.OKBLUE}\nAdvisor registered{bcolors.ENDC}\n")
     elif role == "system_administrator":
