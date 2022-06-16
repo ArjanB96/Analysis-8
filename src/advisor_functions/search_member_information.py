@@ -35,7 +35,7 @@ def search_member_information():
         print("Following member(s) were found: \n")
         # print found members with a number
         for i in range(len(found_members)):
-            print(f"{i}: {found_members[i]}")
+            print(f"{i}: {found_members[i]}\n")
 
     return found_members
 

@@ -141,9 +141,9 @@ def is_valid_username(username):
         elif encrypt(username.lower(), secret.SECRET_KEY) in all_usernames_lowercase:
             print(f"{bcolors.FAIL}Username already exists. Please try again{bcolors.ENDC}")
             return False
-        else:
-            print(f"{bcolors.FAIL}Invalid username. PLease try again{bcolors.ENDC}")
-            return False
+
+    print(f"{bcolors.FAIL}Invalid username. PLease try again{bcolors.ENDC}")
+
 
 
 def is_valid_employee_id(id):

@@ -42,10 +42,10 @@ def delete_member():
             # Logs current activity
             log_member(log_user_options.DELETION)
 
-            print(f"{bcolors.OKBLUE}Member deleted{bcolors.ENDC}")
+            print(f"{bcolors.OKBLUE}\nMember deleted\n{bcolors.ENDC}")
 
         elif choice == "n":
-            print(f"{bcolors.OKBLUE}Canceled{bcolors.ENDC}")
+            print(f"{bcolors.OKBLUE}\nCanceled\n{bcolors.ENDC}")
 
         else:
-            print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}")
+            print(f"{bcolors.OKBLUE}\nInvalid choice\n{bcolors.ENDC}")

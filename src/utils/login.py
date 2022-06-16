@@ -5,6 +5,13 @@ import secret
 import globals
 from models.user import User
 from utils.bcolors import *
+import os
+
+# enable the colors in the terminal if using windows
+try: 
+    os.system('color')
+except:
+    pass
 
 def login():
     '''

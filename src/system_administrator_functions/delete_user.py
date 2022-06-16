@@ -23,16 +23,16 @@ def delete_user(role):
                 # Logs current activity
                 log_user(log_user_options.DELETION, selected_user[4], selected_user[1])
 
-                print(f"{bcolors.OKBLUE}Advisor deleted{bcolors.ENDC}")
+                print(f"{bcolors.OKBLUE}\nAdvisor deleted{bcolors.ENDC}")
             elif role == "admin":
                 # Logs current activity
                 log_user(log_user_options.DELETION, selected_user[4], selected_user[1])
                 
-                print(f"{bcolors.OKBLUE}Admin deleted{bcolors.ENDC}")
+                print(f"{bcolors.OKBLUE}\nAdmin deleted\n{bcolors.ENDC}")
 
         elif choice == "n":
-            print(f"{bcolors.OKBLUE}Canceled{bcolors.ENDC}")
+            print(f"{bcolors.OKBLUE}\nCanceled\n{bcolors.ENDC}")
 
         else:
-            print(f"{bcolors.OKBLUE}Invalid choice{bcolors.ENDC}")
+            print(f"{bcolors.OKBLUE}\nInvalid choice\n{bcolors.ENDC}")
 

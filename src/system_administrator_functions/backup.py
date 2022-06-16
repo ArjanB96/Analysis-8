@@ -43,18 +43,18 @@ def create_backup():
     # Logs the backup creation
     log_backup(log_backup_options.CREATION)
 
-    print(f"{bcolors.OKBLUE}Backup has been successfully made{bcolors.ENDC}")
+    print(f"{bcolors.OKBLUE}\nBackup has been successfully made\n{bcolors.ENDC}")
 
 def restore_backup():
     try:
         # Extracts the database file and overwrites it
-        with ZipFile('data/ackup.zip', 'r') as backup_zip:
+        with ZipFile('data/backup.zip', 'r') as backup_zip:
             backup_zip.extractall()
 
         # Logs the backup restoration
         log_backup(log_backup_options.RESTORATION)
 
-        print(f"{bcolors.OKBLUE}Backup has been successfully restored{bcolors.ENDC}")
+        print(f"{bcolors.OKBLUE}\nBackup has been successfully restored\n{bcolors.ENDC}")
 
     except Exception as exc:
         print(f"{bcolors.FAIL}Restoring from backup failed.\nError: {exc}{bcolors.ENDC}")

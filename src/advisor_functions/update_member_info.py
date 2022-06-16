@@ -54,7 +54,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Member_Id": new_member_id})
 
-            print(f"{bcolors.OKBLUE}Member_id updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nMember_id updated{bcolors.ENDC}\n")
         
         # new first name
         elif choice == "2":
@@ -68,7 +68,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"First_Name": new_first_name})
 
-            print(f"{bcolors.OKBLUE}First_name updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nFirst name updated{bcolors.ENDC}\n")
         
         # new last name
         elif choice == "3":
@@ -82,7 +82,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Last_Name": new_last_name})
 
-            print(f"{bcolors.OKBLUE}Last_name updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nLast_name updated{bcolors.ENDC}\n")
         
         # new street
         elif choice == "4":
@@ -96,7 +96,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Street": new_street})
 
-            print(f"{bcolors.OKBLUE}Street updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nStreet updated{bcolors.ENDC}\n")
 
         # new house number    
         elif choice == "5":
@@ -110,7 +110,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"House_Number": new_house_number})
 
-            print(f"{bcolors.OKBLUE}House_number updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nHouse_number updated{bcolors.ENDC}\n")
         
         # new zip code
         elif choice == "6":
@@ -124,7 +124,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Zip_Code": new_zip_code})
 
-            print(f"{bcolors.OKBLUE}Zip_code updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nZip code updated{bcolors.ENDC}\n")
 
         # new city
         elif choice == "7":
@@ -136,7 +136,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"City": new_city})
 
-            print(f"{bcolors.OKBLUE}City updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nCity updated{bcolors.ENDC}\n")
 
         # new email 
         elif choice == "8":
@@ -150,7 +150,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Email": new_email})
 
-            print(f"{bcolors.OKBLUE}Email updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nEmail updated{bcolors.ENDC}\n")
 
         # new phone number
         elif choice == "9":
@@ -164,7 +164,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Phone_Number": new_phone_number})
 
-            print(f"{bcolors.OKBLUE}Phone_number updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nPhone_number updated{bcolors.ENDC}\n")
 
         # new registration date
         elif choice == "10":
@@ -179,7 +179,7 @@ def update_member_info():
             # Logs the activity 
             log_member(log_user_options.MODIFIED, {"Registration_Date": new_registration_date})
 
-            print(f"{bcolors.OKBLUE}Registration date updated{bcolors.ENDC}\n")
+            print(f"{bcolors.OKBLUE}\nRegistration date updated{bcolors.ENDC}\n")
             
         elif choice == "11":
             return

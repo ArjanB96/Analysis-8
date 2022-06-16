@@ -97,7 +97,7 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Employee_Id": new_employee_id})
 
-        print(f"{bcolors.OKBLUE}Employee_id updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nEmployee_id updated{bcolors.ENDC}\n")
     
 
     # new first name
@@ -112,7 +112,7 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"First_Name": new_first_name})
 
-        print(f"{bcolors.OKBLUE}First name updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nFirst name updated{bcolors.ENDC}\n")
 
     # new last name
     elif choice == "3":
@@ -125,11 +125,11 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Last_Name": new_last_name})
 
-        print(f"{bcolors.OKBLUE}Last name updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nLast name updated{bcolors.ENDC}\n")
     
     # new username
     elif choice == "4":
-        print("The user name must unique and can not be longer than 10 characters")
+        print("The user name must be unique and can not be longer than 10 characters")
         new_username = input("Enter new username: ")
         while not value_checks.is_valid_username(new_username):
             new_username = input("Enter new username: ")
@@ -139,7 +139,7 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Username": new_username})
 
-        print(f"{bcolors.OKBLUE}Username updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nUsername updated{bcolors.ENDC}\n")
     
     # new password
     elif choice == "5":
@@ -153,7 +153,7 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Password": new_password})
 
-        print(f"{bcolors.OKBLUE}Password updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nPassword updated{bcolors.ENDC}\n")
     
     # new registration date
     elif choice == "6":
@@ -166,7 +166,7 @@ def update_user_info(role):
         # Logs current activity
         log_user(log_user_options.MODIFIED, selected_user[4], selected_user[1], {"Registration_Date": new_registration_date})
 
-        print(f"{bcolors.OKBLUE}Registration date updated{bcolors.ENDC}\n")
+        print(f"{bcolors.OKBLUE}\nRegistration date updated{bcolors.ENDC}\n")
 
     # exit
     elif choice == "7":
